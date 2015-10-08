@@ -1,16 +1,18 @@
+var autoprefixer = require('autoprefixer');
 var path = require('path');
 var webpack = require('webpack');
+
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
-  entry: {
-    app: './js/{{ cookiecutter.repo_name }}.js'
-  },
+  entry: [
+    './src/js/{{ cookiecutter.repo_name }}.js'
+  ],
   output: {
     path: path.resolve(__dirname, '{{ cookiecutter.public_path }}', 'js'),
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'main.js'
   },
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.SourceMapDevToolPlugin(),
     new webpack.NoErrorsPlugin()
   ],
@@ -24,7 +26,7 @@ module.exports = {
       },
 
       // css
-      { test: /\.css$/, loader: "style!css" },
+      { test: /\.css$/, loader: "style!css!postcss" },
 
       // fonts
       { test: /\.woff$/, loader: 'url?prefix=font/&limit=5000&mimetype=application/font-woff' },
@@ -39,5 +41,8 @@ module.exports = {
       { test: /\.gif$/, loader: 'file?prefix=img/' },
       { test: /\.svg$/, loader: 'file?prefix=img/' }
     ]
+  },
+  postcss: function() {
+    return [autoprefixer];
   }
 };
