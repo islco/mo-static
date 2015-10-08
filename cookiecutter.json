@@ -1,0 +1,8 @@
+{
+  "project_name": "mo-static",
+  "repo_name": "{{ cookiecutter.project_name|replace(' ', '_') }}",
+  "author": "ISL",
+  "email": "dev@isl.co",
+  "description": "You want a static template? Because mo-static is how you get a static template.",
+  "public_path": "public"
+}

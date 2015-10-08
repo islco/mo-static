@@ -1,0 +1,30 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/4.1.1/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'webpack',
+1 verbose cli   'file-loader',
+1 verbose cli   'babel-loader' ]
+2 info using npm@2.14.4
+3 info using node@v4.1.1
+4 verbose install initial load of /Users/andrew/Developer/mo-static/{{ cookiecutter.repo_name }}/package.json
+5 verbose stack Error: Invalid name: "{{ cookiecutter.project_name }}"
+5 verbose stack     at ensureValidName (/usr/local/lib/node_modules/npm/node_modules/normalize-package-data/lib/fixer.js:331:15)
+5 verbose stack     at Object.module.exports.fixNameField (/usr/local/lib/node_modules/npm/node_modules/normalize-package-data/lib/fixer.js:210:5)
+5 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/normalize-package-data/lib/normalize.js:32:38
+5 verbose stack     at Array.forEach (native)
+5 verbose stack     at normalize (/usr/local/lib/node_modules/npm/node_modules/normalize-package-data/lib/normalize.js:31:15)
+5 verbose stack     at final (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:338:5)
+5 verbose stack     at then (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:113:5)
+5 verbose stack     at ReadFileContext.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:284:20)
+5 verbose stack     at ReadFileContext.callback (/usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:76:16)
+5 verbose stack     at FSReqWrap.readFileAfterOpen [as oncomplete] (fs.js:303:13)
+6 verbose cwd /Users/andrew/Developer/mo-static/{{ cookiecutter.repo_name }}
+7 error Darwin 14.5.0
+8 error argv "/usr/local/Cellar/node/4.1.1/bin/node" "/usr/local/bin/npm" "install" "webpack" "file-loader" "babel-loader"
+9 error node v4.1.1
+10 error npm  v2.14.4
+11 error Invalid name: "{{ cookiecutter.project_name }}"
+12 error If you need help, you may report this error at:
+12 error     <https://github.com/npm/npm/issues>
+13 verbose exit [ 1, true ]
