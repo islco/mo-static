@@ -13,7 +13,6 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.SourceMapDevToolPlugin(),
     new webpack.NoErrorsPlugin()
   ],
   module: {

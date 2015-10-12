@@ -1,3 +1,4 @@
+var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var browserSync = require('browser-sync').create();
@@ -14,7 +15,7 @@ gulp.task('build-dev', ['webpack:build-dev'], function() {
   gulp.watch(['{{ cookiecutter.repo_name }}/**/*'], ['webpack:build-dev']);
 });
 
-gulp.task('build', ['scss', 'html',  'webpack:build']);
+gulp.task('build', ['scss', 'html', 'webpack:build']);
 
 gulp.task('webpack:build', function(done) {
   var myConfig = Object.create(webpackConfig);
@@ -28,11 +29,18 @@ gulp.task('webpack:build', function(done) {
     new webpack.optimize.UglifyJsPlugin()
   );
 
+  try {
+    banner = fs.readFileSync('./banner.txt');
+    myConfig.plugins.push(new webpack.BannerPlugin(banner, { entryOnly: true }));
+  } catch(e) {
+    gutil.log('No banner.txt found, skipping banner output.');
+  }
+
   webpack(myConfig, function(err, stats) {
-    if(err) throw new gutil.PluginError('webpack:build', err);
-    gutil.log('[webpack:build]', stats.toString({
-      colors: true
-    }));
+    if (err) {
+      throw new gutil.PluginError('webpack:build', err);
+    }
+    gutil.log('[webpack:build]', stats.toString({ colors: true }));
     done();
   });
 });
@@ -40,15 +48,18 @@ gulp.task('webpack:build', function(done) {
 var myDevConfig = Object.create(webpackConfig);
 myDevConfig.devtool = 'sourcemap';
 myDevConfig.debug = true;
+myDevConfig.plugins = myDevConfig.plugins.concat(
+    new webpack.SourceMapDevToolPlugin()
+);
 
 var devBundler = webpack(myDevConfig);
 
 gulp.task('webpack:build-dev', function(done) {
   devBundler.run(function(err, stats) {
-    if(err) throw new gutil.PluginError('webpack:build-dev', err);
-    gutil.log('[webpack:build-dev]', stats.toString({
-      colors: true
-    }));
+    if (err) {
+      throw new gutil.PluginError('webpack:build-dev', err);
+    }
+    gutil.log('[webpack:build-dev]', stats.toString({ colors: true }));
     done();
   });
 });
@@ -67,7 +78,7 @@ gulp.task('html', function() {
   .pipe(gulp.dest('./{{ cookiecutter.public_path }}'));
 })
 
-gulp.task('start', ['webpack:build-dev', 'scss', 'html'], function() {
+gulp.task('start', function() {
   browserSync.init({
     server: {
       baseDir: '{{ cookiecutter.public_path }}'

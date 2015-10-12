@@ -1,2 +1,4 @@
 node_modules/
 {{ cookiecutter.build_path }}/
+
+*.log
