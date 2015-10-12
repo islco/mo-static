@@ -6,16 +6,17 @@ var autoprefixer = require('autoprefixer');
 var postcss = require('gulp-postcss');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
+var nunjucksRender = require('gulp-nunjucks-render');
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.config.js');
 
 gulp.task('default', ['start']);
 
-gulp.task('build-dev', ['webpack:build-dev'], function() {
+gulp.task('build-dev', ['nunjucks', 'sass', 'webpack:build-dev', 'start'], function() {
   gulp.watch(['{{ cookiecutter.repo_name }}/**/*'], ['webpack:build-dev']);
 });
 
-gulp.task('build', ['scss', 'html', 'webpack:build']);
+gulp.task('build', ['sass', 'nunjucks', 'webpack:build']);
 
 gulp.task('webpack:build', function(done) {
   var myConfig = Object.create(webpackConfig);
@@ -26,7 +27,11 @@ gulp.task('webpack:build', function(done) {
       }
     }),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    })
   );
 
   try {
@@ -45,17 +50,12 @@ gulp.task('webpack:build', function(done) {
   });
 });
 
-var myDevConfig = Object.create(webpackConfig);
-myDevConfig.devtool = 'sourcemap';
-myDevConfig.debug = true;
-myDevConfig.plugins = myDevConfig.plugins.concat(
-    new webpack.SourceMapDevToolPlugin()
-);
-
-var devBundler = webpack(myDevConfig);
-
 gulp.task('webpack:build-dev', function(done) {
-  devBundler.run(function(err, stats) {
+  var myDevConfig = Object.create(webpackConfig);
+  myDevConfig.devtool = 'source-map';
+  myDevConfig.debug = true;
+
+  webpack(myDevConfig, function(err, stats) {
     if (err) {
       throw new gutil.PluginError('webpack:build-dev', err);
     }
@@ -64,7 +64,7 @@ gulp.task('webpack:build-dev', function(done) {
   });
 });
 
-gulp.task('scss', function() {
+gulp.task('sass', function() {
   return gulp.src('./src/scss/**/*.scss')
   .pipe(sourcemaps.init())
   .pipe(sass().on('error', sass.logError))
@@ -73,10 +73,12 @@ gulp.task('scss', function() {
   .pipe(gulp.dest('./{{ cookiecutter.public_path }}/css'));
 });
 
-gulp.task('html', function() {
-  return gulp.src('./src/**/*.html')
+gulp.task('nunjucks', function() {
+  nunjucksRender.nunjucks.configure(['./src/templates/'], { watch: false });
+  return gulp.src(['./src/templates/**/*.html', '!_*.html'])
+  .pipe(nunjucksRender())
   .pipe(gulp.dest('./{{ cookiecutter.public_path }}'));
-})
+});
 
 gulp.task('start', function() {
   browserSync.init({
@@ -91,6 +93,6 @@ gulp.task('start', function() {
   });
 
   gulp.watch('./src/js/**/*.js', ['webpack:build-dev']);
-  gulp.watch('./src/scss/**/*.scss', ['scss']);
-  gulp.watch('./src/**/*.html', ['html']);
+  gulp.watch('./src/scss/**/*.scss', ['sass']);
+  gulp.watch('./src/**/*.html', ['nunjucks']);
 });

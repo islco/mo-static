@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% raw %}<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -7,7 +7,11 @@
         <link href="/css/main.css" rel="stylesheet">
     </head>
     <body>
-        <h1>Hello, {{ cookiecutter.project_name }}</h1>
+        {% block content %}
+        {% endblock %}
+
+        {% block javascripts %}
         <script src="/js/main.js"></script>
+        {% endblock %}
     </body>
-</html>
+</html>{% endraw %}
