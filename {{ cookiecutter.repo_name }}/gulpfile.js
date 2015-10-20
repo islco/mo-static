@@ -1,67 +1,49 @@
-var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var concat = require('gulp-concat');
 var browserSync = require('browser-sync').create();
 var autoprefixer = require('autoprefixer');
 var postcss = require('gulp-postcss');
 var sass = require('gulp-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var nunjucksRender = require('gulp-nunjucks-render');
-var webpack = require('webpack');
-var webpackConfig = require('./webpack.config.js');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var browserify = require('browserify');
+var watchify = require('watchify');
+var babel = require('babelify');
 
-gulp.task('default', ['start']);
 
-gulp.task('build-dev', ['nunjucks', 'sass', 'webpack:build-dev', 'start'], function() {
-  gulp.watch(['{{ cookiecutter.repo_name }}/**/*'], ['webpack:build-dev']);
-});
+function bundle(watch) {
+  var bundler = browserify('./src/js/{{ cookiecutter.repo_name }}.js', { debug: true }).transform(babel);
 
-gulp.task('build', ['sass', 'nunjucks', 'webpack:build']);
-
-gulp.task('webpack:build', function(done) {
-  var myConfig = Object.create(webpackConfig);
-  myConfig.plugins = myConfig.plugins.concat(
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      }
-    })
-  );
-
-  try {
-    banner = fs.readFileSync('./banner.txt');
-    myConfig.plugins.push(new webpack.BannerPlugin(banner, { entryOnly: true }));
-  } catch(e) {
-    gutil.log('No banner.txt found, skipping banner output.');
+  function rebundle() {
+    return bundler.bundle()
+      .on('error', function(err) { throw new gutil.PluginError('browserify', err), this.emit('end'); })
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest('./{{ cookiecutter.public_path }}/js/'));
   }
 
-  webpack(myConfig, function(err, stats) {
-    if (err) {
-      throw new gutil.PluginError('webpack:build', err);
-    }
-    gutil.log('[webpack:build]', stats.toString({ colors: true }));
-    done();
-  });
+  if (watch) {
+    bundler = watchify(bundler);
+    bundler.on('update', function() {
+      gutil.log('-> bundling...');
+      rebundle();
+    });
+  }
+
+  return rebundle();
+}
+
+gulp.task('browserify', function() {
+  return bundle();
 });
 
-gulp.task('webpack:build-dev', function(done) {
-  var myDevConfig = Object.create(webpackConfig);
-  myDevConfig.devtool = 'source-map';
-  myDevConfig.debug = true;
-
-  webpack(myDevConfig, function(err, stats) {
-    if (err) {
-      throw new gutil.PluginError('webpack:build-dev', err);
-    }
-    gutil.log('[webpack:build-dev]', stats.toString({ colors: true }));
-    done();
-  });
+gulp.task('watchify', function() {
+  return bundle(true);
 });
 
 gulp.task('sass', function() {
@@ -70,29 +52,40 @@ gulp.task('sass', function() {
   .pipe(sass().on('error', sass.logError))
   .pipe(postcss([autoprefixer]))
   .pipe(sourcemaps.write())
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/css'));
+  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/css/'));
 });
 
 gulp.task('nunjucks', function() {
   nunjucksRender.nunjucks.configure(['./src/templates/'], { watch: false });
-  return gulp.src(['./src/templates/**/*.html', '!_*.html'])
+  return gulp.src(['./src/templates/**/*.html', '!**/_*'])
   .pipe(nunjucksRender())
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}'));
+  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
 });
 
-gulp.task('start', function() {
+gulp.task('start', ['nunjucks', 'sass', 'watchify'], function() {
   browserSync.init({
     server: {
       baseDir: '{{ cookiecutter.public_path }}'
     },
     files: [
-      '{{ cookiecutter.public_path}}/js/**/*.js',
-      '{{ cookiecutter.public_path}}/css/**/*.css',
-      '{{ cookiecutter.public_path}}/**/*.html'
+      '{{ cookiecutter.public_path }}/js/**/*.js',
+      '{{ cookiecutter.public_path }}/css/**/*.css',
+      '{{ cookiecutter.public_path }}/**/*.html'
     ]
   });
 
-  gulp.watch('./src/js/**/*.js', ['webpack:build-dev']);
   gulp.watch('./src/scss/**/*.scss', ['sass']);
   gulp.watch('./src/**/*.html', ['nunjucks']);
 });
+
+gulp.task('banner', ['browserify'], function() {
+  return gulp.src(['banner.txt', './{{ cookiecutter.public_path }}/js/bundle.js'])
+  .pipe(concat('bundle.js'))
+  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/js/'));
+});
+
+
+gulp.task('default', ['build-dev']);
+
+gulp.task('build-dev', ['sass', 'nunjucks', 'watchify', 'start']);
+gulp.task('build', ['sass', 'nunjucks', 'browserify', 'banner']);
