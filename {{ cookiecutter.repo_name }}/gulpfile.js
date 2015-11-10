@@ -62,6 +62,12 @@ gulp.task('nunjucks', function() {
   .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
 });
 
+gulp.task('extras', function() {
+  return gulp.src(['./src/**/*.txt', './src/**/*.json', './src/**/*.xml',
+    './src/**/*.jpg', './src/**/*.png', './src/**/*.gif', './src/**/*.svg'])
+  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
+});
+
 gulp.task('start', ['nunjucks', 'sass', 'watchify'], function() {
   browserSync.init({
     server: '{{ cookiecutter.public_path }}',
@@ -83,7 +89,7 @@ gulp.task('banner', ['browserify'], function() {
 });
 
 
-gulp.task('default', ['browserify', 'nunjucks', 'sass']);
+gulp.task('default', ['browserify', 'nunjucks', 'sass', 'extras']);
 
 gulp.task('build-dev', ['default', 'start']);
 gulp.task('build', ['default', 'banner']);
