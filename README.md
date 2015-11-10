@@ -12,9 +12,14 @@ You want a static template? Because mo-static is how you get a static template.
 
 ## Usage
 
-To create a new project
-
+1. kick off the mo-static setup script
 ```
 pip install cookiecutter
 cookiecutter gh:istrategylabs/mo-static
+```
+1. Follow the prompts to configure your project name and settings
+2. Once finished
+```
+cd [your_project_name]
+gulp
 ```
