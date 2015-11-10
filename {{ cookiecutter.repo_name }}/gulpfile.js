@@ -15,11 +15,11 @@ var babel = require('babelify');
 
 
 function bundle(watch) {
-  var bundler = browserify('./src/js/{{ cookiecutter.repo_name }}.js', { debug: true }).transform(babel);
+  var bundler = browserify('./src/js/{{ cookiecutter.repo_name }}.js', { entry: true, debug: true }).transform(babel);
 
   function rebundle() {
     return bundler.bundle()
-      .on('error', function(err) { throw new gutil.PluginError('browserify', err), this.emit('end'); })
+      .on('error', function(err) { gutil.log(err); this.emit('end'); })
       .pipe(source('bundle.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
@@ -64,9 +64,7 @@ gulp.task('nunjucks', function() {
 
 gulp.task('start', ['nunjucks', 'sass', 'watchify'], function() {
   browserSync.init({
-    server: {
-      baseDir: '{{ cookiecutter.public_path }}'
-    },
+    server: '{{ cookiecutter.public_path }}',
     files: [
       '{{ cookiecutter.public_path }}/js/**/*.js',
       '{{ cookiecutter.public_path }}/css/**/*.css',
@@ -85,7 +83,7 @@ gulp.task('banner', ['browserify'], function() {
 });
 
 
-gulp.task('default', ['build-dev']);
+gulp.task('default', ['browserify', 'nunjucks', 'sass']);
 
-gulp.task('build-dev', ['sass', 'nunjucks', 'watchify', 'start']);
-gulp.task('build', ['sass', 'nunjucks', 'browserify', 'banner']);
+gulp.task('build-dev', ['default', 'start']);
+gulp.task('build', ['default', 'banner']);

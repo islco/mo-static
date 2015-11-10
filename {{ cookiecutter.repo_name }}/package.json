@@ -1,10 +1,10 @@
 {
-  "name": "{{ cookiecutter.project_name }}",
+  "name": "{{ cookiecutter.repo_name }}",
   "version": "0.1.0",
   "description": "{{ cookiecutter.description }}",
   "scripts": {
-    "start": "./node_modules/gulp/bin/gulp.js build-dev",
-    "build": "./node_modules/gulp/bin/gulp.js build",
+    "start": "gulp build-dev",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "{{ cookiecutter.author }}",
