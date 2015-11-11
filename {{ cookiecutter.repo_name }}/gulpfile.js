@@ -11,15 +11,15 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
-var babel = require('babelify');
 
 
 function bundle(watch) {
-  var bundler = browserify('./src/js/{{ cookiecutter.repo_name }}.js', { entry: true, debug: true }).transform(babel);
+  var bundler = browserify('./src/js/{{ cookiecutter.repo_name }}.js', { entry: true, debug: true })
+  .transform('babelify', { presets: ['es2015'] });
 
   function rebundle() {
     return bundler.bundle()
-      .on('error', function(err) { gutil.log(err); this.emit('end'); })
+      .on('error', function(err) { gutil.log(gutil.colors.red(err.message)); this.emit('end'); })
       .pipe(source('bundle.js'))
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
