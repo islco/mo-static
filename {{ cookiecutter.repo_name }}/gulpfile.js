@@ -11,6 +11,8 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var browserify = require('browserify');
 var watchify = require('watchify');
+var rev = require('gulp-rev');
+var revReplace = require('gulp-rev-replace');
 
 
 function bundle(watch) {
@@ -82,6 +84,21 @@ gulp.task('start', ['nunjucks', 'sass', 'watchify'], function() {
   gulp.watch('./src/**/*.html', ['nunjucks']);
 });
 
+gulp.task('rev', ['default', 'banner'], function() {
+  return gulp.src(['./{{ cookiecutter.public_path }}/**/*', '!./{{ cookiecutter.public_path }}/**/*.html'], { base: './{{ cookiecutter.public_path }}' })
+  .pipe(rev())
+  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'))
+  .pipe(rev.manifest())
+  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
+});
+
+gulp.task('rev:replace', ['rev'], function() {
+  var manifest = gulp.src('./{{ cookiecutter.public_path }}/rev-manifest.json');
+  return gulp.src('./{{ cookiecutter.public_path }}/**/*')
+  .pipe(revReplace({ manifest: manifest }))
+  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
+});
+
 gulp.task('banner', ['browserify'], function() {
   return gulp.src(['banner.txt', './{{ cookiecutter.public_path }}/js/bundle.js'])
   .pipe(concat('bundle.js'))
@@ -92,4 +109,4 @@ gulp.task('banner', ['browserify'], function() {
 gulp.task('default', ['browserify', 'nunjucks', 'sass', 'extras']);
 
 gulp.task('build-dev', ['default', 'start']);
-gulp.task('build', ['default', 'banner']);
+gulp.task('build', ['default', 'banner', 'rev:replace']);
