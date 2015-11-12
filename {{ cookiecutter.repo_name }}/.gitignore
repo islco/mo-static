@@ -1,4 +1,4 @@
 node_modules/
-{{ cookiecutter.public_path }}/
+public/
 
 *.log
