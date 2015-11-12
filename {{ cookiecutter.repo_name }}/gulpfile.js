@@ -29,7 +29,7 @@ function bundle(watch) {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write())
-      .pipe(gulp.dest('./{{ cookiecutter.public_path }}/js/'));
+      .pipe(gulp.dest('./public/js/'));
   }
 
   if (watch) {
@@ -57,29 +57,29 @@ gulp.task('sass', function() {
   .pipe(sass().on('error', sass.logError))
   .pipe(postcss([autoprefixer]))
   .pipe(sourcemaps.write())
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/css/'));
+  .pipe(gulp.dest('./public/css/'));
 });
 
 gulp.task('nunjucks', function() {
   nunjucksRender.nunjucks.configure(['./src/templates/'], { watch: false });
   return gulp.src(['./src/templates/**/*.html', '!**/_*'])
   .pipe(nunjucksRender())
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
+  .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('extras', function() {
   return gulp.src(['./src/**/*.txt', './src/**/*.json', './src/**/*.xml',
     './src/**/*.jpg', './src/**/*.png', './src/**/*.gif', './src/**/*.svg'])
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
+  .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('start', ['nunjucks', 'sass', 'watchify'], function() {
   browserSync.init({
-    server: '{{ cookiecutter.public_path }}',
+    server: 'public',
     files: [
-      '{{ cookiecutter.public_path }}/js/**/*.js',
-      '{{ cookiecutter.public_path }}/css/**/*.css',
-      '{{ cookiecutter.public_path }}/**/*.html'
+      'public/js/**/*.js',
+      'public/css/**/*.css',
+      'public/**/*.html'
     ]
   });
 
@@ -88,24 +88,24 @@ gulp.task('start', ['nunjucks', 'sass', 'watchify'], function() {
 });
 
 gulp.task('rev', ['default', 'banner'], function() {
-  return gulp.src(['./{{ cookiecutter.public_path }}/**/*', '!./{{ cookiecutter.public_path }}/**/*.html'], { base: './{{ cookiecutter.public_path }}' })
+  return gulp.src(['./public/**/*', '!./public/**/*.html'], { base: './public' })
   .pipe(rev())
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'))
+  .pipe(gulp.dest('./public/'))
   .pipe(rev.manifest())
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
+  .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('rev:replace', ['rev'], function() {
-  var manifest = gulp.src('./{{ cookiecutter.public_path }}/rev-manifest.json');
-  return gulp.src('./{{ cookiecutter.public_path }}/**/*')
+  var manifest = gulp.src('./public/rev-manifest.json');
+  return gulp.src('./public/**/*')
   .pipe(revReplace({ manifest: manifest }))
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/'));
+  .pipe(gulp.dest('./public/'));
 });
 
 gulp.task('banner', ['browserify'], function() {
-  return gulp.src(['banner.txt', './{{ cookiecutter.public_path }}/js/bundle.js'])
+  return gulp.src(['banner.txt', './public/js/bundle.js'])
   .pipe(concat('bundle.js'))
-  .pipe(gulp.dest('./{{ cookiecutter.public_path }}/js/'));
+  .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('compress', ['rev:replace'], function() {
@@ -114,8 +114,13 @@ gulp.task('compress', ['rev:replace'], function() {
   // Those files have a - and a 10 character string
   .pipe(gulpif(/-\w{10}\.js$/, uglify()))
   .pipe(gulpif(/-\w{10}\.css$/, minifyCss()))
-  // Not sure if we want more options, open to feedback!
-  .pipe(gulpif('*.html', htmlmin({ collapseWhitespace: true })))
+  .pipe(gulpif('*.html', htmlmin({
+    collapseWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    removeScriptTypeAttributes: true,
+    removeStyleLinkTypeAttributes: true
+  })))
   .pipe(gulp.dest('./public/'));
 });
 
