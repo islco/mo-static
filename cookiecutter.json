@@ -3,6 +3,5 @@
   "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
   "author": "ISL",
   "email": "dev@isl.co",
-  "description": "Do you want a static template? Because mo-static is how you get a static template!",
-  "public_path": "public"
+  "description": "Do you want a static template? Because mo-static is how you get a static template!"
 }
