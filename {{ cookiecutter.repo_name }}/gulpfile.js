@@ -1,5 +1,6 @@
 var gulp           = require('gulp');
 var gutil          = require('gulp-util');
+var del            = require('del');
 var concat         = require('gulp-concat');
 var browserSync    = require('browser-sync').create();
 var autoprefixer   = require('autoprefixer');
@@ -17,8 +18,10 @@ var uglify         = require('gulp-uglify');
 var minifyCss      = require('gulp-minify-css');
 var htmlmin        = require('gulp-htmlmin');
 var gulpif         = require('gulp-if');
+var runSequence    = require('run-sequence');
 
-function bundle(watch) {
+function bundle(options) {
+  options = options || {};
   var bundler = browserify('./src/js/{{ cookiecutter.repo_name }}.js', { entry: true, debug: true })
   .transform('babelify', { presets: ['es2015'] });
 
@@ -32,7 +35,7 @@ function bundle(watch) {
       .pipe(gulp.dest('./public/js/'));
   }
 
-  if (watch) {
+  if (options.watch) {
     bundler = watchify(bundler);
     bundler.on('update', function() {
       gutil.log('-> bundling...');
@@ -48,7 +51,7 @@ gulp.task('browserify', function() {
 });
 
 gulp.task('watchify', function() {
-  return bundle(true);
+  return bundle({ watch: true });
 });
 
 gulp.task('sass', function() {
@@ -68,27 +71,23 @@ gulp.task('nunjucks', function() {
 });
 
 gulp.task('extras', function() {
-  return gulp.src(['./src/**/*.txt', './src/**/*.json', './src/**/*.xml',
-    './src/**/*.jpg', './src/**/*.png', './src/**/*.gif', './src/**/*.svg'])
+  return gulp.src('./src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg}')
   .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('start', ['nunjucks', 'sass', 'watchify'], function() {
+gulp.task('start', ['nunjucks', 'sass', 'extras', 'watchify'], function() {
   browserSync.init({
     server: 'public',
-    files: [
-      'public/js/**/*.js',
-      'public/css/**/*.css',
-      'public/**/*.html'
-    ]
+    files: './public/**/*'
   });
 
   gulp.watch('./src/scss/**/*.scss', ['sass']);
   gulp.watch('./src/**/*.html', ['nunjucks']);
+  gulp.watch('./src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg}', ['extras']);
 });
 
 gulp.task('rev', ['default', 'banner'], function() {
-  return gulp.src(['./public/**/*', '!./public/**/*.html'], { base: './public' })
+  return gulp.src(['./public/**/*', '!**/*.html'], { base: './public' })
   .pipe(rev())
   .pipe(gulp.dest('./public/'))
   .pipe(rev.manifest())
@@ -108,8 +107,8 @@ gulp.task('banner', ['browserify'], function() {
   .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('compress', ['rev:replace'], function() {
-  return gulp.src(['./public/**/*'], {base: './public/'})
+gulp.task('minify', ['rev:replace'], function() {
+  return gulp.src(['./public/**/*'], { base: './public/' })
   // Only target the versioned files with the hash
   // Those files have a - and a 10 character string
   .pipe(gulpif(/-\w{10}\.js$/, uglify()))
@@ -124,8 +123,21 @@ gulp.task('compress', ['rev:replace'], function() {
   .pipe(gulp.dest('./public/'));
 });
 
+gulp.task('clean', function() {
+  return del('./public/');
+});
+
 
 gulp.task('default', ['browserify', 'nunjucks', 'sass', 'extras']);
 
-gulp.task('build-dev', ['default', 'start']);
-gulp.task('build', ['default', 'banner', 'rev:replace', 'compress']);
+gulp.task('build-dev', function(done) {
+  runSequence('clean',
+              ['default', 'start'],
+              done);
+});
+
+gulp.task('build', function(done) {
+  runSequence('clean',
+              ['default', 'banner', 'rev:replace', 'minify'],
+              done);
+});
