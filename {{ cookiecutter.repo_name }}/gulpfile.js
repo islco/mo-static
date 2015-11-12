@@ -1,19 +1,22 @@
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var concat = require('gulp-concat');
-var browserSync = require('browser-sync').create();
-var autoprefixer = require('autoprefixer');
-var postcss = require('gulp-postcss');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
+var gulp           = require('gulp');
+var gutil          = require('gulp-util');
+var concat         = require('gulp-concat');
+var browserSync    = require('browser-sync').create();
+var autoprefixer   = require('autoprefixer');
+var postcss        = require('gulp-postcss');
+var sass           = require('gulp-sass');
+var sourcemaps     = require('gulp-sourcemaps');
 var nunjucksRender = require('gulp-nunjucks-render');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var rev = require('gulp-rev');
-var revReplace = require('gulp-rev-replace');
-
+var source         = require('vinyl-source-stream');
+var buffer         = require('vinyl-buffer');
+var browserify     = require('browserify');
+var watchify       = require('watchify');
+var rev            = require('gulp-rev');
+var revReplace     = require('gulp-rev-replace');
+var uglify         = require('gulp-uglify');
+var minifyCss      = require('gulp-minify-css');
+var htmlmin        = require('gulp-htmlmin');
+var gulpif         = require('gulp-if');
 
 function bundle(watch) {
   var bundler = browserify('./src/js/{{ cookiecutter.repo_name }}.js', { entry: true, debug: true })
@@ -105,8 +108,19 @@ gulp.task('banner', ['browserify'], function() {
   .pipe(gulp.dest('./{{ cookiecutter.public_path }}/js/'));
 });
 
+gulp.task('compress', ['rev:replace'], function() {
+  return gulp.src(['./public/**/*'], {base: './public/'})
+  // Only target the versioned files with the hash
+  // Those files have a - and a 10 character string
+  .pipe(gulpif(/-\w{10}\.js$/, uglify()))
+  .pipe(gulpif(/-\w{10}\.css$/, minifyCss()))
+  // Not sure if we want more options, open to feedback!
+  .pipe(gulpif('*.html', htmlmin({ collapseWhitespace: true })))
+  .pipe(gulp.dest('./public/'));
+});
+
 
 gulp.task('default', ['browserify', 'nunjucks', 'sass', 'extras']);
 
 gulp.task('build-dev', ['default', 'start']);
-gulp.task('build', ['default', 'banner', 'rev:replace']);
+gulp.task('build', ['default', 'banner', 'rev:replace', 'compress']);
