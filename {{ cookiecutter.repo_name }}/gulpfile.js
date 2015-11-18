@@ -18,6 +18,7 @@ var uglify         = require('gulp-uglify');
 var minifyCss      = require('gulp-minify-css');
 var htmlmin        = require('gulp-htmlmin');
 var gulpif         = require('gulp-if');
+var critical       = require('critical').stream;
 var runSequence    = require('run-sequence');
 
 function bundle(options) {
@@ -86,7 +87,7 @@ gulp.task('start', ['nunjucks', 'sass', 'extras', 'watchify'], function() {
   gulp.watch('./src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg}', ['extras']);
 });
 
-gulp.task('rev', ['default', 'banner'], function() {
+gulp.task('rev', ['default'], function() {
   return gulp.src(['./public/**/*', '!**/*.html'], { base: './public' })
   .pipe(rev())
   .pipe(gulp.dest('./public/'))
@@ -107,11 +108,13 @@ gulp.task('banner', ['browserify'], function() {
   .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('minify', ['rev:replace'], function() {
+gulp.task('minify', ['rev:replace', 'critical'], function() {
   return gulp.src(['./public/**/*'], { base: './public/' })
   // Only target the versioned files with the hash
   // Those files have a - and a 10 character string
-  .pipe(gulpif(/-\w{10}\.js$/, uglify()))
+  .pipe(gulpif(/-\w{10}\.js$/, uglify({
+    preserveComments: 'some'
+  })))
   .pipe(gulpif(/-\w{10}\.css$/, minifyCss()))
   .pipe(gulpif('*.html', htmlmin({
     collapseWhitespace: true,
@@ -123,12 +126,22 @@ gulp.task('minify', ['rev:replace'], function() {
   .pipe(gulp.dest('./public/'));
 });
 
+gulp.task('critical', ['default', 'rev:replace'], function() {
+  return gulp.src('public/**/*.html')
+  .pipe(critical({
+    base: 'public/',
+    inline: true
+  }))
+  .pipe(gulp.dest('public/'));
+});
+
 gulp.task('clean', function() {
   return del('./public/');
 });
 
 
 gulp.task('default', ['browserify', 'nunjucks', 'sass', 'extras']);
+gulp.task('prod', ['banner', 'rev:replace', 'minify', 'critical']);
 
 gulp.task('build-dev', function(done) {
   runSequence('clean',
@@ -138,6 +151,6 @@ gulp.task('build-dev', function(done) {
 
 gulp.task('build', function(done) {
   runSequence('clean',
-              ['default', 'banner', 'rev:replace', 'minify'],
+              ['default', 'prod'],
               done);
 });
