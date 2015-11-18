@@ -15,6 +15,10 @@ Mo-static is a static project template with batteries included.
 * [Browserify](http://browserify.org/) (w/[Babel](https://babeljs.io/))
 * [Nunjucks](https://mozilla.github.io/nunjucks/)
 * [BrowserSync](http://www.browsersync.io/)
+* [UglifyJS](https://github.com/mishoo/UglifyJS2/)
+* [clean-css](https://github.com/jakubpawlowicz/clean-css)
+* [html-minifier](https://github.com/kangax/html-minifier)
+* [Critical](https://github.com/addyosmani/critical)
 
 
 ## Usage

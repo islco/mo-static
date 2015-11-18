@@ -87,7 +87,7 @@ gulp.task('start', ['nunjucks', 'sass', 'extras', 'watchify'], function() {
   gulp.watch('./src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg}', ['extras']);
 });
 
-gulp.task('rev', ['default'], function() {
+gulp.task('rev', ['default', 'banner'], function() {
   return gulp.src(['./public/**/*', '!**/*.html'], { base: './public' })
   .pipe(rev())
   .pipe(gulp.dest('./public/'))
@@ -126,7 +126,7 @@ gulp.task('minify', ['rev:replace', 'critical'], function() {
   .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('critical', ['default', 'rev:replace'], function() {
+gulp.task('critical', ['rev:replace'], function() {
   return gulp.src('public/**/*.html')
   .pipe(critical({
     base: 'public/',
