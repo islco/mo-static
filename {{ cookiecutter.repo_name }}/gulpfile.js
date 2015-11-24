@@ -26,12 +26,14 @@ const runSequence    = require('run-sequence');
 function bundle(options) {
   options = options || {};
   const bundlerOpts = { entry: true, debug: true };
-  let bundler = browserify('./src/js/franklin-dashboard.js', bundlerOpts)
+  let bundler = browserify(
+    './src/js/{{ cookiecutter.repo_name }}.js', bundlerOpts
+    )
     .transform('babelify', { presets: ['es2015'] });
 
   function rebundle() {
     return bundler.bundle()
-      .on('error', (err) => {
+      .on('error', function(err) {
         gutil.log(gutil.colors.red(err.message));
         this.emit('end');
       })
