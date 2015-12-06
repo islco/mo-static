@@ -20,6 +20,7 @@ const uglify         = require('gulp-uglify');
 const minifyCss      = require('gulp-minify-css');
 const htmlmin        = require('gulp-htmlmin');
 const gulpif         = require('gulp-if');
+const critical       = require('critical').stream;
 const runSequence    = require('run-sequence');
 
 
@@ -116,7 +117,7 @@ gulp.task('banner', ['browserify'], () => {
     .pipe(gulp.dest('./public/js/'));
 });
 
-gulp.task('minify', ['rev:replace'], () => {
+gulp.task('minify', ['rev:replace', 'critical'], () => {
   return gulp.src(['./public/**/*'], { base: './public/' })
     // Only target the versioned files with the hash
     // Those files have a - and a 10 character string
@@ -132,18 +133,30 @@ gulp.task('minify', ['rev:replace'], () => {
     .pipe(gulp.dest('./public/'));
 });
 
+gulp.task('critical', ['rev:replace'], function() {
+  return gulp.src('public/**/*.html')
+  .pipe(critical({
+    base: 'public/',
+    inline: true
+  }))
+  .pipe(gulp.dest('public/'));
+});
+
 gulp.task('clean', () => {
   return del('./public/');
 });
 
 gulp.task('default', ['browserify', 'nunjucks', 'sass', 'extras']);
+gulp.task('prod', ['banner', 'rev:replace', 'minify', 'critical']);
 
 gulp.task('build-dev', (done) => {
-  const sequence = ['default', 'start'];
-  runSequence('clean', sequence, done);
+  runSequence('clean',
+              ['default', 'start'],
+              done);
 });
 
 gulp.task('build', (done) => {
-  const sequence = ['default', 'banner', 'rev:replace', 'minify'];
-  runSequence('clean', sequence, done);
+  runSequence('clean',
+              ['default', 'prod'],
+              done);
 });
