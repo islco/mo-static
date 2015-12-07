@@ -33,5 +33,9 @@
     "vinyl-buffer": "1.0.0",
     "vinyl-source-stream": "1.1.0",
     "watchify": "3.6.0"
+  },
+  "engines": {
+    "npm": "3.3.3",
+    "node": "4.2.1"
   }
 }
