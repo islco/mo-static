@@ -8,6 +8,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "{{ cookiecutter.author }}",
+  {% if cookiecutter.use_foundation == 'y' -%}
+  "dependencies": {
+    "zurb-foundation-5": "^5.4.7"
+  },
+  {%- endif %}
   "devDependencies": {
     "autoprefixer": "6.1.0",
     "babel-preset-es2015": "6.1.4",

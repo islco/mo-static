@@ -1,5 +1,7 @@
 'use strict';
 
+const fs             = require('fs');
+const path           = require('path');
 const gulp           = require('gulp');
 const gutil          = require('gulp-util');
 const del            = require('del');
@@ -23,6 +25,38 @@ const gulpif         = require('gulp-if');
 const critical       = require('critical').stream;
 const runSequence    = require('run-sequence');
 
+// npm 3.* flattens node_modules in such a way that consolidates common
+// dependencies into one node_modules directory at the root of a project. If
+// this project is installed as a dependency of another, then we can't count on
+// there being a node_modules directory on the same level of this project. So
+// we search upwards for the nearest node_modules directory and use that for
+// reference
+const nodeModules = (() => {
+  // TODO: Make configurable?
+  const maxAttempts = 10;
+  let   attempt = 1;
+  let   base = 'node_modules';
+  let   modulesPath;
+
+  while(true && attempt <= maxAttempts) {
+    let   stats;
+    const upOne = path.resolve(base);
+    try {
+      stats = fs.statSync(upOne);
+      if (stats.isDirectory()) {
+        modulesPath = upOne;
+        break;
+      }
+    } catch(e) { /* The node_modules folder wasn't found here */ }
+    attempt += 1;
+    base = '../' + base;
+  }
+  return modulesPath;
+})();
+
+if (!nodeModules) {
+  throw new Error('Could not locate an npm_modules directory');
+}
 
 function bundle(options) {
   options = options || {};
@@ -67,7 +101,16 @@ gulp.task('watchify', () => {
 gulp.task('sass', () => {
   return gulp.src('./src/scss/**/*.scss')
     .pipe(sourcemaps.init())
+    {% if cookiecutter.use_foundation == 'n' -%}
     .pipe(sass().on('error', sass.logError))
+    {%- endif %}
+    {% if cookiecutter.use_foundation == 'y' -%}
+    .pipe(sass({
+      includePaths: [
+        path.join( nodeModules, '/zurb-foundation-5/scss/')
+      ]
+    }).on('error', sass.logError))
+    {%- endif %}
     .pipe(postcss([autoprefixer]))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./public/css/'));
