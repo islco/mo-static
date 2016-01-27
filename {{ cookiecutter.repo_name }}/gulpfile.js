@@ -1,5 +1,6 @@
 'use strict';
 
+const path           = require('path');
 const gulp           = require('gulp');
 const gutil          = require('gulp-util');
 const del            = require('del');
@@ -17,7 +18,7 @@ const watchify       = require('watchify');
 const rev            = require('gulp-rev');
 const revReplace     = require('gulp-rev-replace');
 const uglify         = require('gulp-uglify');
-const minifyCss      = require('gulp-minify-css');
+const cssnano        = require('gulp-cssnano');
 const htmlmin        = require('gulp-htmlmin');
 const gulpif         = require('gulp-if');
 const critical       = require('critical').stream;
@@ -67,7 +68,14 @@ gulp.task('watchify', () => {
 gulp.task('sass', () => {
   return gulp.src('./src/scss/**/*.scss')
     .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass(
+      {% if cookiecutter.use_foundation == 'y' -%}
+      {
+        includePaths: [path.join(path.dirname(require.resolve('foundation-sites')), '../scss')]
+      }
+      {%- endif %}
+    )
+    .on('error', sass.logError))
     .pipe(postcss([autoprefixer]))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('./public/css/'));
@@ -122,7 +130,7 @@ gulp.task('minify', ['rev:replace', 'critical'], () => {
     // Only target the versioned files with the hash
     // Those files have a - and a 10 character string
     .pipe(gulpif(/-\w{10}\.js$/, uglify()))
-    .pipe(gulpif(/-\w{10}\.css$/, minifyCss()))
+    .pipe(gulpif(/-\w{10}\.css$/, cssnano()))
     .pipe(gulpif('*.html', htmlmin({
       collapseWhitespace: true,
       removeComments: true,
