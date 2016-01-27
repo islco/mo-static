@@ -1,8 +1,15 @@
-
 'use strict';
+
 
 console.log('Hello, {{ cookiecutter.project_name }}');
 
-let dateDisplayEl = document.createElement('div');
+const dateDisplayEl = document.createElement('div');
 dateDisplayEl.innerHTML = new Date();
 document.body.appendChild(dateDisplayEl);
+
+{% if cookiecutter.use_foundation == 'y' -%}
+const $ = require('jquery');
+const foundation = require('foundation-sites');
+
+$(document).foundation();
+{%- endif %}

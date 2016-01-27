@@ -1,9 +1,26 @@
 {% raw %}{% extends '_base.html' %}
 
 {% block content %}
+{% endraw %}
+{% if cookiecutter.use_foundation == 'y' -%}
+{% raw %}
+<main role="main">
+    <section class="row">
+        <div class="columns">
+            <h1>Hello, {% endraw %}{{ cookiecutter.project_name }}{% raw %}</h1>
+            <p>With Foundation Sites 6.1.2, documentation at <a href="http://foundation.zurb.com/sites/docs/">foundation.zurb.com</a></p>
+        </div>
+    </section>
+</main>
+{% endraw %}
+{%- else %}
+{% raw %}
 <main role="main">
     <h1>Hello, {% endraw %}{{ cookiecutter.project_name }}{% raw %}</h1>
 </main>
+{% endraw %}
+{%- endif %}
+{% raw %}
 {% endblock %}
 
 {% block javascripts %}
