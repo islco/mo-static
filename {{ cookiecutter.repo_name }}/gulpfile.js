@@ -1,6 +1,5 @@
 'use strict';
 
-const path           = require('path');
 const gulp           = require('gulp');
 const gutil          = require('gulp-util');
 const del            = require('del');
@@ -93,7 +92,7 @@ gulp.task('extras', () => {
     .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('start', ['nunjucks', 'sass', 'extras', 'watchify'], () => {
+gulp.task('watch', ['nunjucks', 'sass', 'extras', 'watchify'], () => {
   browserSync.init({
     server: 'public',
     files: './public/**/*'
@@ -104,7 +103,7 @@ gulp.task('start', ['nunjucks', 'sass', 'extras', 'watchify'], () => {
   gulp.watch('./src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg}', ['extras']);
 });
 
-gulp.task('rev', ['default', 'banner'], () => {
+gulp.task('rev', ['build', 'banner'], () => {
   return gulp.src(['./public/**/*', '!**/*.html'], { base: './public' })
     .pipe(rev())
     .pipe(gulp.dest('./public/'))
@@ -154,17 +153,28 @@ gulp.task('clean', () => {
   return del('./public/');
 });
 
-gulp.task('default', ['browserify', 'nunjucks', 'sass', 'extras']);
-gulp.task('prod', ['banner', 'rev:replace', 'minify', 'critical']);
-
-gulp.task('build-dev', (done) => {
-  runSequence('clean',
-              ['default', 'start'],
-              done);
-});
-
 gulp.task('build', (done) => {
-  runSequence('clean',
-              ['default', 'prod'],
-              done);
+  runSequence(
+    'clean',
+    ['browserify', 'nunjucks', 'sass', 'extras'],
+    done
+  );
 });
+
+gulp.task('build:production', (done) => {
+  runSequence(
+    'build',
+    ['banner', 'rev:replace', 'minify', 'critical'],
+    done
+  );
+});
+
+gulp.task('start', (done) => {
+  runSequence(
+    'build',
+    'watch',
+    done
+  );
+});
+
+gulp.task('default', ['build']);
