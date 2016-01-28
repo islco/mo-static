@@ -26,7 +26,7 @@ Mo-static is a static project template with batteries included.
 Create a new project from the mo-static template using cookiecutter:
 
 ```
-pip install cookiecutter
+brew install cookiecutter
 cookiecutter gh:istrategylabs/mo-static
 ```
 

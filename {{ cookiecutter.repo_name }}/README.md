@@ -7,10 +7,10 @@
 To start a Browser Sync server
 
 ```
-npm run start
+npm start
 ```
 
-or to build, cachebust, and minify all assets
+or to build, cachebust, and minify all assets for production
 
 ```
 npm run build
