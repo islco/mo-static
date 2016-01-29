@@ -68,7 +68,7 @@ gulp.task('sass', () => {
   return gulp.src('./src/scss/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass(
-      {% if cookiecutter.use_foundation == 'y' -%}
+      {% if cookiecutter.use_foundation_sites == 'y' -%}
       {
         includePaths: [path.join(path.dirname(require.resolve('foundation-sites')), '../scss')]
       }

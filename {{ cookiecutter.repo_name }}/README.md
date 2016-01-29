@@ -16,7 +16,7 @@ or to build, cachebust, and minify all assets for production
 npm run build
 ```
 
-{% if cookiecutter.use_foundation == 'y' -%}
+{% if cookiecutter.use_foundation_sites == 'y' -%}
 ## Foundation
 
 Foundation Sites 6.1.2 is included with a small set of components included by

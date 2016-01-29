@@ -1,5 +1,5 @@
 @import 'settings';
-{% if cookiecutter.use_foundation == 'y' -%}
+{% if cookiecutter.use_foundation_sites == 'y' -%}
 @import 'foundation';
 
 @include foundation-global-styles;

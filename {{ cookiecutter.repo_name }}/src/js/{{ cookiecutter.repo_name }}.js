@@ -7,7 +7,7 @@ const dateDisplayEl = document.createElement('div');
 dateDisplayEl.innerHTML = new Date();
 document.body.appendChild(dateDisplayEl);
 
-{% if cookiecutter.use_foundation == 'y' -%}
+{% if cookiecutter.use_foundation_sites == 'y' -%}
 const $ = require('jquery');
 const foundation = require('foundation-sites');
 
