@@ -13,7 +13,6 @@ const nunjucksRender = require('gulp-nunjucks-render');
 const source         = require('vinyl-source-stream');
 const buffer         = require('vinyl-buffer');
 const browserify     = require('browserify');
-const watchify       = require('watchify');
 const rev            = require('gulp-rev');
 const revReplace     = require('gulp-rev-replace');
 const uglify         = require('gulp-uglify');
@@ -46,6 +45,7 @@ function bundle(options) {
   }
 
   if (options.watch) {
+    const watchify = require('watchify');
     bundler = watchify(bundler);
     bundler.on('update', () => {
       gutil.log('-> bundling...');
