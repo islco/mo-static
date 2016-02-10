@@ -7,7 +7,7 @@
 To start a Browser Sync server
 
 ```
-npm start
+npm run dev
 ```
 
 or to build, cachebust, and minify all assets for production
