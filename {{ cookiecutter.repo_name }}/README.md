@@ -4,14 +4,14 @@
 
 ## Requirements
 
-* Node >=4.2.0
+* Node >=4.4.0
 * NPM >=3.0.0
 
-It's recommended that you use a node version manager, like [nvm](https://github.com/creationix/nvm). For example, to use node version 4.4 with {{ cookiecutter.project_name }}:
+It's recommended that you use a node version manager, like [nvm](https://github.com/creationix/nvm).
 
 ```
-nvm install 4.4
-nvm use 4.4
+nvm install
+nvm use
 ```
 
 ## Usage
