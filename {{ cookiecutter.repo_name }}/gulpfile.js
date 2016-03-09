@@ -28,7 +28,7 @@ function bundle(options) {
   options = options || {};
   const bundlerOpts = { entry: true, debug: true };
   let bundler = browserify(
-    './src/js/{{ cookiecutter.repo_name }}.js', bundlerOpts
+    './src/js/app.js', bundlerOpts
     )
     .transform('babelify', { presets: ['es2015'] });
 
