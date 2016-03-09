@@ -2,15 +2,33 @@
 
 {{ cookiecutter.description }}
 
+## Requirements
+
+* Node >=4.0.0
+* NPM >=3.0.0
+
+It's recommended that you use a node version manager, like [nvm](https://github.com/creationix/nvm). For example, to use node version 4.4 with {{ cookiecutter.project_name }}:
+
+```
+nvm install 4.4
+nvm use 4.4
+```
+
 ## Usage
 
-To start a Browser Sync server
+First, install your dependencies:
+
+```
+npm install
+```
+
+To start a Browser Sync server:
 
 ```
 npm start
 ```
 
-or to build, cachebust, and minify all assets for production
+or to build, cachebust, and minify all assets for production:
 
 ```
 npm run build
