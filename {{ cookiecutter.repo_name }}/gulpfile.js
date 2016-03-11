@@ -4,7 +4,6 @@ const path           = require('path');
 const gulp           = require('gulp');
 const gutil          = require('gulp-util');
 const del            = require('del');
-const concat         = require('gulp-concat');
 const browserSync    = require('browser-sync').create();
 const autoprefixer   = require('autoprefixer');
 const postcss        = require('gulp-postcss');
