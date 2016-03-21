@@ -1,5 +1,6 @@
 'use strict';
 
+const fs             = require('fs');
 const path           = require('path');
 const gulp           = require('gulp');
 const gutil          = require('gulp-util');
@@ -27,7 +28,7 @@ function bundle(options) {
   options = options || {};
   const bundlerOpts = { entry: true, debug: true };
   let bundler = browserify(
-    './src/js/app.js', bundlerOpts
+    'src/js/app.js', bundlerOpts
     )
     .transform('babelify', { presets: ['es2015'] });
 
@@ -41,7 +42,7 @@ function bundle(options) {
       .pipe(buffer())
       .pipe(sourcemaps.init({ loadMaps: true }))
       .pipe(sourcemaps.write())
-      .pipe(gulp.dest('./public/js/'));
+      .pipe(gulp.dest('public/js/'));
   }
 
   if (options.watch) {
@@ -65,7 +66,7 @@ gulp.task('watchify', () => {
 });
 
 gulp.task('sass', () => {
-  return gulp.src('./src/scss/**/*.scss')
+  return gulp.src('src/scss/**/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass(
       {% if cookiecutter.use_foundation_sites == 'y' -%}
@@ -77,49 +78,49 @@ gulp.task('sass', () => {
     .on('error', sass.logError))
     .pipe(postcss([autoprefixer]))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public/css/'));
+    .pipe(gulp.dest('public/css/'));
 });
 
 gulp.task('nunjucks', () => {
-  nunjucksRender.nunjucks.configure(['./src/templates/'], { watch: false });
-  return gulp.src(['./src/templates/**/*.html', './src/js/**/*.html', '!**/_*'])
+  nunjucksRender.nunjucks.configure(['src/templates/'], { watch: false });
+  return gulp.src(['src/templates/**/*.html', 'src/js/**/*.html', '!**/_*'])
     .pipe(nunjucksRender())
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest('public/'));
 });
 
 gulp.task('extras', () => {
-  return gulp.src('./src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff, woff2}')
-    .pipe(gulp.dest('./public/'));
+  return gulp.src('src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}')
+    .pipe(gulp.dest('public/'));
 });
 
 gulp.task('watch', ['nunjucks', 'sass', 'extras', 'watchify'], () => {
   browserSync.init({
     server: 'public',
-    files: './public/**/*'
+    files: 'public/**/*'
   });
 
-  gulp.watch('./src/scss/**/*.scss', ['sass']);
-  gulp.watch('./src/**/*.html', ['nunjucks']);
-  gulp.watch('./src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff, woff2}', ['extras']);
+  gulp.watch('src/scss/**/*.scss', ['sass']);
+  gulp.watch('src/**/*.html', ['nunjucks']);
+  gulp.watch('src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}', ['extras']);
 });
 
 gulp.task('rev', ['build'], () => {
-  return gulp.src(['./public/**/*', '!**/*.html'], { base: './public' })
+  return gulp.src(['public/**/*', '!**/*.html'], { base: 'public' })
     .pipe(rev())
-    .pipe(gulp.dest('./public/'))
+    .pipe(gulp.dest('public/'))
     .pipe(rev.manifest())
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest('public/'));
 });
 
 gulp.task('rev:replace', ['rev'], () => {
-  const manifest = gulp.src('./public/rev-manifest.json');
-  return gulp.src('./public/**/*')
+  const manifest = gulp.src('public/rev-manifest.json');
+  return gulp.src('public/**/*')
     .pipe(revReplace({ manifest: manifest }))
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest('public/'));
 });
 
 gulp.task('minify', ['rev:replace', 'critical'], () => {
-  return gulp.src(['./public/**/*'], { base: './public/' })
+  return gulp.src(['public/**/*'], { base: 'public/' })
     // Only target the versioned files with the hash
     // Those files have a - and a 10 character string
     .pipe(gulpif(/-\w{10}\.js$/, uglify({
@@ -143,20 +144,21 @@ gulp.task('minify', ['rev:replace', 'critical'], () => {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true
     })))
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest('public/'));
 });
 
 gulp.task('critical', ['rev:replace'], function() {
   return gulp.src('public/**/*.html')
   .pipe(critical({
     base: 'public/',
-    inline: true
+    inline: true,
+    minify: true
   }))
   .pipe(gulp.dest('public/'));
 });
 
 gulp.task('clean', () => {
-  return del('./public/');
+  return del(['public/*', '!public/favicon.ico', '!public/favicon-152.png']);
 });
 
 gulp.task('build', (done) => {
