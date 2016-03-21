@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 @import 'settings';
 {% if cookiecutter.use_foundation_sites == 'y' -%}
 @import 'foundation';
