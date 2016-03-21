@@ -39,6 +39,21 @@ npm run build
 
 ## What to change
 
+### Favicon
+
+Two favicon files are included and should be changed to be appropriate for the project.
+Follow the [Favicon Cheat Sheet](https://github.com/audreyr/favicon-cheat-sheet) for
+best practices, and create at [least these images](https://github.com/audreyr/favicon-cheat-sheet#the-images):
+
+| Sizes | Name | Purpose |
+|---|---|---|---|---|
+| 16x16 & 32x32 | favicon.ico | Default required by IE. Chrome and Safari may pick ico over png, sadly. |
+| 152x152 | favicon-152.png | General use iOS/Android icon, auto-downscaled by devices. |
+
+You can use ImageMagick to generate `.ico` files for you which is detailed in
+the [Helpful Tools](https://github.com/audreyr/favicon-cheat-sheet#helpful-tools) section.
+
+
 ### Structured Data
 
 [Structured Data](https://developers.google.com/structured-data/) tags are included to provide better data for search engine indexes.

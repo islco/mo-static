@@ -5,6 +5,7 @@ template.
 
 Mo-static is a static project template with batteries included.
 
+
 ## Features
 
 * [cookiecutter](https://github.com/audreyr/cookiecutter)
@@ -19,6 +20,7 @@ Mo-static is a static project template with batteries included.
 * [cssnano](https://github.com/ben-eb/cssnano)
 * [html-minifier](https://github.com/kangax/html-minifier)
 * [Critical](https://github.com/addyosmani/critical)
+* [loadCSS](https://github.com/filamentgroup/loadCSS)
 
 
 ## Usage
