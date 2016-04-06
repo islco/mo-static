@@ -10,10 +10,11 @@ Mo-static is a static project template with batteries included.
 
 * [cookiecutter](https://github.com/audreyr/cookiecutter)
 * [editorconfig](http://editorconfig.org/)
-* [ESLint](http://eslint.org/) (w/[Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb#eslint-config-airbnbbase))
 * [Gulp](http://gulpjs.com/)
-* [SASS](https://github.com/dlmanning/gulp-sass) (w/[Autoprefixer](https://autoprefixer.github.io/))
 * [Browserify](http://browserify.org/) (w/[Babel](https://babeljs.io/))
+* [ESLint](http://eslint.org/) (w/[Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb#eslint-config-airbnbbase))
+* [SASS](https://github.com/dlmanning/gulp-sass) (w/[Autoprefixer](https://autoprefixer.github.io/))
+* [Stylelint](https://github.com/stylelint/stylelint) (w/[standard](https://github.com/stylelint/stylelint-config-standard) and [BEM](https://github.com/davidtheclark/stylelint-selector-bem-pattern))
 * [Nunjucks](https://mozilla.github.io/nunjucks/)
 * [BrowserSync](http://www.browsersync.io/)
 * [UglifyJS](https://github.com/mishoo/UglifyJS2/)
@@ -25,7 +26,7 @@ Mo-static is a static project template with batteries included.
 
 ## Usage
 
-Create a new project from the mo-static template using cookiecutter:
+Create a new project from the mo-static template using [cookiecutter](https://github.com/audreyr/cookiecutter):
 
 ```
 brew install cookiecutter
@@ -94,4 +95,4 @@ you should change this to meet your needs, see [robotstxt.org](http://www.robots
 
 By default, the `humans.txt` file only lists ISL as a contributor. You should add project contributors
 to this list. Also, you should add any special thanks, and update technology colophone to be appropriate
-for the project.
+for the project. See [humanstxt.org](http://humanstxt.org/Standard.html).

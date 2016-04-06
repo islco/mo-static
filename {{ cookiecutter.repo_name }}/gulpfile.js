@@ -9,6 +9,7 @@ const browserSync    = require('browser-sync').create();
 const autoprefixer   = require('autoprefixer');
 const postcss        = require('gulp-postcss');
 const sass           = require('gulp-sass');
+const stylelint      = require('gulp-stylelint');
 const sourcemaps     = require('gulp-sourcemaps');
 const nunjucksRender = require('gulp-nunjucks-render');
 const source         = require('vinyl-source-stream');
@@ -22,7 +23,8 @@ const htmlmin        = require('gulp-htmlmin');
 const gulpif         = require('gulp-if');
 const critical       = require('critical').stream;
 const runSequence    = require('run-sequence');
-const extrasGlob = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
+const browserslist = 'last 2 versions, Firefox ESR';  // see https://github.com/ai/browserslist#queries
+const extrasGlob = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}';
 
 
 function bundle(options) {
@@ -67,16 +69,18 @@ gulp.task('watchify', () => {
 
 gulp.task('sass', () => {
   return gulp.src('src/scss/**/*.scss')
+    .pipe(stylelint({
+      browsers: browserslist,
+      syntax: 'scss',
+      reporters: [ { formatter: 'string', console: true } ],
+      failAfterError: false
+    }))
     .pipe(sourcemaps.init())
-    .pipe(sass(
-      {% if cookiecutter.use_foundation_sites == 'y' -%}
-      {
-        includePaths: [path.join(path.dirname(require.resolve('foundation-sites')), '../scss')]
-      }
-      {%- endif %}
-    )
+    .pipe(sass({% if cookiecutter.use_foundation_sites == 'y' -%}{
+      includePaths: [path.join(path.dirname(require.resolve('foundation-sites')), '../scss')]
+    }{%- endif %})
     .on('error', sass.logError))
-    .pipe(postcss([autoprefixer]))
+    .pipe(postcss([autoprefixer({ browsers: browserslist })]))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('public/css/'));
 });
@@ -104,7 +108,7 @@ gulp.task('watch', ['nunjucks', 'sass', 'extras', 'watchify'], () => {
   gulp.watch(extrasGlob, ['extras']);
 });
 
-gulp.task('rev', ['build'], () => {
+gulp.task('rev', () => {
   return gulp.src(['public/**/*', '!**/*.html'], { base: 'public' })
     .pipe(rev())
     .pipe(gulp.dest('public/'))
