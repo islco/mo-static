@@ -17,7 +17,7 @@ const browserify     = require('browserify');
 const rev            = require('gulp-rev');
 const revReplace     = require('gulp-rev-replace');
 const uglify         = require('gulp-uglify');
-const cssnano        = require('gulp-cssnano');
+const cleancss       = require('gulp-clean-css');
 const htmlmin        = require('gulp-htmlmin');
 const gulpif         = require('gulp-if');
 const critical       = require('critical').stream;
@@ -136,7 +136,7 @@ gulp.task('minify', ['rev:replace', 'critical'], () => {
         }())
       }
     })))
-    .pipe(gulpif(/-\w{10}\.css$/, cssnano()))
+    .pipe(gulpif(/-\w{10}\.css$/, cleancss()))
     .pipe(gulpif('*.html', htmlmin({
       collapseWhitespace: true,
       removeComments: true,
