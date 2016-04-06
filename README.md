@@ -14,7 +14,7 @@ Mo-static is a static project template with batteries included.
 * [Browserify](http://browserify.org/) (w/[Babel](https://babeljs.io/))
 * [ESLint](http://eslint.org/) (w/[Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb#eslint-config-airbnbbase))
 * [SASS](https://github.com/dlmanning/gulp-sass) (w/[Autoprefixer](https://autoprefixer.github.io/))
-* [Stylelint](https://github.com/stylelint/stylelint) (w/[standard](https://github.com/stylelint/stylelint-config-standard) and [BEM](https://github.com/davidtheclark/stylelint-selector-bem-pattern))
+* [Stylelint](https://github.com/stylelint/stylelint) (w/[stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard) and [stylelint-selector-bem-pattern](https://github.com/davidtheclark/stylelint-selector-bem-pattern))
 * [Nunjucks](https://mozilla.github.io/nunjucks/)
 * [BrowserSync](http://www.browsersync.io/)
 * [UglifyJS](https://github.com/mishoo/UglifyJS2/)
