@@ -22,6 +22,7 @@ const htmlmin        = require('gulp-htmlmin');
 const gulpif         = require('gulp-if');
 const critical       = require('critical').stream;
 const runSequence    = require('run-sequence');
+const extrasGlob = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
 
 function bundle(options) {
@@ -89,7 +90,7 @@ gulp.task('nunjucks', () => {
 });
 
 gulp.task('extras', () => {
-  return gulp.src('src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}')
+  return gulp.src(extrasGlob)
     .pipe(gulp.dest('public/'));
 });
 
@@ -101,7 +102,7 @@ gulp.task('watch', ['nunjucks', 'sass', 'extras', 'watchify'], () => {
 
   gulp.watch('src/scss/**/*.scss', ['sass']);
   gulp.watch('src/**/*.html', ['nunjucks']);
-  gulp.watch('src/**/*.{txt,json,xml,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}', ['extras']);
+  gulp.watch(extrasGlob, ['extras']);
 });
 
 gulp.task('rev', ['build'], () => {
@@ -158,7 +159,7 @@ gulp.task('critical', ['rev:replace'], function() {
 });
 
 gulp.task('clean', () => {
-  return del(['public/*', '!public/favicon.ico', '!public/favicon-152.png']);
+  return del('public/');
 });
 
 gulp.task('build', (done) => {
