@@ -4,7 +4,7 @@
   "description": "{{ cookiecutter.description }}",
   "scripts": {
     "build": "gulp build:production",
-    "start": "gulp start"
+    "dev": "gulp start"
   },
   "author": "{{ cookiecutter.author }}",
   "dependencies": {
