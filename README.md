@@ -10,7 +10,7 @@ Mo-static is a static project template with batteries included.
 
 * [cookiecutter](https://github.com/audreyr/cookiecutter)
 * [editorconfig](http://editorconfig.org/)
-* [ESLint](http://eslint.org/)
+* [ESLint](http://eslint.org/) (w/[Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb#eslint-config-airbnbbase))
 * [Gulp](http://gulpjs.com/)
 * [SASS](https://github.com/dlmanning/gulp-sass) (w/[Autoprefixer](https://autoprefixer.github.io/))
 * [Browserify](http://browserify.org/) (w/[Babel](https://babeljs.io/))

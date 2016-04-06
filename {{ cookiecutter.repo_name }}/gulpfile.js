@@ -28,9 +28,8 @@ const extrasGlob = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,
 function bundle(options) {
   options = options || {};
   const bundlerOpts = { entry: true, debug: true };
-  let bundler = browserify(
-    'src/js/app.js', bundlerOpts
-    )
+  let bundler = browserify('src/js/app.js', bundlerOpts)
+    .transform({ continuous: true }, 'eslintify')
     .transform('babelify', { presets: ['es2015'] });
 
   function rebundle() {
