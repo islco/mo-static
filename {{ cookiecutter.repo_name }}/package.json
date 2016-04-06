@@ -16,6 +16,9 @@
     {% if cookiecutter.use_foundation_sites == 'y' -%}"browserify-shim": "3.8.12",{%- endif %}
     "critical": "0.6.0",
     "del": "2.0.2",
+    "eslint": "2.7.0",
+    "eslint-config-airbnb": "6.2.0",
+    "eslintify": "2.0.1",
     {% if cookiecutter.use_foundation_sites == 'y' -%}"foundation-sites": "6.2.0",{%- endif %}
     "gulp": "3.9.0",
     "gulp-cssnano": "2.1.0",
