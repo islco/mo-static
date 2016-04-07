@@ -43,14 +43,14 @@ npm run build
 All configuration variables should be defined in the `nconf.defaults` and it should be indicated if they are required.
 
 The configuration is passed to [envyify](https://github.com/hughsk/envify) for transforming with browserify. This
-means you can use `process.env.FOO` in your browserified JavaScript files. The appropriate environment variable
-will be subsituted during the build process.
+means you can use `process.env.FOO` in your browserified JavaScript files and the appropriate environment variable
+will be substituted during the build process to be shipped in the browser.
 
-__TIP:__ 🔐 Don't leak secret keys, neither by commmitting them nor passing them to browserify. If the var you are
+__🔐 TIP:__ Don't leak secret keys, neither by commmitting them nor by passing them to browserify. If the var you are
 using should be kept secret, you should not add it to `config.js`.
 
 
-__TIP:__ ⏱ If the config var is an amount of time, specify the units in the var name:
+__⏱ TIP:__ If the config var is an amount of time, specify the units in the var name:
 
 ```
 nconf.defaults({

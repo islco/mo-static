@@ -75,7 +75,7 @@ Some Open Graph tags are included as defined by Facebook's [Sharing Best Practic
 If more tags apply, add them as defined by the [Open Graph Protocol](http://opengraphprotocol.org/).
 
 * Update the tags defined in the [Use proper Open Graph tags](https://developers.facebook.com/docs/sharing/best-practices#tags) with the appropriate values.
-* Add an absolute URL to an image per the [Optimize images to generate great previews](https://developers.facebook.com/docs/sharing/best-practices#images) section, ideally 1200x630 pixels in size, but no smaller than 600x315 pixels and under 8MB.
+* Add an absolute URL to an image per the [optimize images to generate great previews](https://developers.facebook.com/docs/sharing/best-practices#images) section, ideally 1200x630 pixels in size, but no smaller than 600x315 pixels and under 8MB.
 * Use the [Facebook URL Debugger](https://developers.facebook.com/tools/debug) to pre-cache the image and verify the tags are set up correctly.
 
 ### Twitter Card Tags
@@ -85,7 +85,7 @@ tags are included to prominently display image content on tweets.
 
 * Update the tags defined in the Reference section with the appropriate values.
 * Add an absolute URL to an image per the `twitter:image` tag reference, at least 280x150 pixels in size and under 1MB.
-* Use the [Twitter Card Validator](https://cards-dev.twitter.com/validator) to pre-cache the image and verify the tags are set up correct.
+* Use the [Twitter Card Validator](https://cards-dev.twitter.com/validator) to pre-cache the image and verify the tags are set up correctly.
 
 ### robots.txt
 
@@ -95,5 +95,5 @@ you should change this to meet your needs, see [robotstxt.org](http://www.robots
 ### humans.txt
 
 By default, the `humans.txt` file only lists ISL as a contributor. You should add project contributors
-to this list. Also, you should add any special thanks, and update technology colophone to be appropriate
-for the project. See [humanstxt.org](http://humanstxt.org/Standard.html).
+to this list. Also, you should add any special thanks, and update the technology colophone to be appropriate
+for the project, see [humanstxt.org](http://humanstxt.org/Standard.html).
