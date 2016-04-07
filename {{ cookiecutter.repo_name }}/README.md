@@ -104,6 +104,7 @@ with a few small modifications:
 * 4 spaces for indentation.
 * No vendor prefixes.
 * Max of 2 adjacent empty lines.
+* Required [hierarchical selectors](http://stylelint.io/user-guide/rules/indentation/#hierarchicalselectors-truefalse).
 * Required empty line between nested selectors, except first nested.
 * No [unsupported browser features](http://stylelint.io/user-guide/rules/no-unsupported-browser-features/).
 
