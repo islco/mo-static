@@ -5,7 +5,6 @@ const path           = require('path');
 const gulp           = require('gulp');
 const gutil          = require('gulp-util');
 const del            = require('del');
-const browserSync    = require('browser-sync').create();
 const autoprefixer   = require('autoprefixer');
 const postcss        = require('gulp-postcss');
 const sass           = require('gulp-sass');
@@ -15,6 +14,7 @@ const nunjucksRender = require('gulp-nunjucks-render');
 const source         = require('vinyl-source-stream');
 const buffer         = require('vinyl-buffer');
 const browserify     = require('browserify');
+const envify         = require('envify/custom');
 const rev            = require('gulp-rev');
 const revReplace     = require('gulp-rev-replace');
 const uglify         = require('gulp-uglify');
@@ -23,6 +23,7 @@ const htmlmin        = require('gulp-htmlmin');
 const gulpif         = require('gulp-if');
 const critical       = require('critical').stream;
 const runSequence    = require('run-sequence');
+const config = require('./config').get();
 const browserslist = 'last 2 versions, Firefox ESR';  // see https://github.com/ai/browserslist#queries
 const extrasGlob = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}';
 
@@ -31,8 +32,9 @@ function bundle(options) {
   options = options || {};
   const bundlerOpts = { entry: true, debug: true };
   let bundler = browserify('src/js/app.js', bundlerOpts)
-    .transform({ continuous: true }, 'eslintify')
-    .transform('babelify', { presets: ['es2015'] });
+    .transform('eslintify', { continuous: true })
+    .transform('babelify', { presets: ['es2015'] })
+    .transform(envify(config));
 
   function rebundle() {
     return bundler.bundle()
@@ -97,7 +99,8 @@ gulp.task('extras', () => {
     .pipe(gulp.dest('public/'));
 });
 
-gulp.task('watch', ['nunjucks', 'sass', 'extras', 'watchify'], () => {
+gulp.task('watch', ['watchify'], () => {
+  const browserSync = require('browser-sync').create();
   browserSync.init({
     server: 'public',
     files: 'public/**/*'

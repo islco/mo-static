@@ -24,7 +24,7 @@ First, install your dependencies:
 npm install
 ```
 
-To start a Browser Sync server:
+To start a Browsersync server:
 
 ```
 npm run dev
@@ -36,6 +36,28 @@ or to build, cachebust, and minify all assets for production:
 npm run build
 ```
 
+## Configuration
+
+[nconf](https://github.com/indexzero/nconf) is used to handle configuration and lives in `config.js`.
+
+All configuration variables should be defined in the `nconf.defaults` and it should be indicated if they are required.
+
+The configuration is passed to [envyify](https://github.com/hughsk/envify) for transforming with browserify. This
+means you can use `process.env.FOO` in your browserified JavaScript files. The appropriate environment variable
+will be subsituted during the build process.
+
+__TIP:__ 🔐 Don't leak secret keys, neither by commmitting them nor passing them to browserify. If the var you are
+using should be kept secret, you should not add it to `config.js`.
+
+
+__TIP:__ ⏱ If the config var is an amount of time, specify the units in the var name:
+
+```
+nconf.defaults({
+  TIMEOUT_MS: 2000,
+  EXPIRATION_S: 3
+})
+```
 
 {% if cookiecutter.use_foundation_sites == 'y' -%}
 ## Foundation
