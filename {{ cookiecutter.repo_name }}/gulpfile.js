@@ -14,7 +14,7 @@ const nunjucks = require('gulp-nunjucks')
 const source = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
 const browserify = require('browserify')
-const envify = require('envify/custom')
+const envify = require('loose-envify/custom')
 const rev = require('gulp-rev')
 const revReplace = require('gulp-rev-replace')
 const uglify = require('gulp-uglify')
@@ -28,46 +28,39 @@ const config = require('./config').get()
 const browserslist = 'last 2 versions, Firefox ESR'  // see https://github.com/ai/browserslist#queries
 const extrasGlob = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
+let bundler = browserify({ entry: true, debug: true })
+  .add('src/js/app.js')
+  .transform('eslintify', { continuous: true })
+  .transform('babelify')
+  .transform(envify(config))
+  .transform('uglifyify')
 
-function bundle(options) {
-  options = options || {}
-  const bundlerOpts = { entry: true, debug: true }
-  let bundler = browserify('src/js/app.js', bundlerOpts)
-    .transform('eslintify', { continuous: true })
-    .transform('babelify')
-    .transform(envify(config))
-
-  function rebundle() {
-    return bundler.bundle()
-      .on('error', function(err) {
-        gutil.log(gutil.colors.red(err.message))
-        this.emit('end')
-      })
-      .pipe(source('bundle.js'))
-      .pipe(buffer())
-      .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(sourcemaps.write())
-      .pipe(gulp.dest('public/js/'))
-  }
-
-  if (options.watch) {
-    const watchify = require('watchify')
-    bundler = watchify(bundler)
-    bundler.on('update', () => {
-      gutil.log('-> bundling...')
-      rebundle()
-    })
-  }
-
-  return rebundle()
+function bundle() {
+  return bundler.bundle()
+  .on('error', function(err) {
+    gutil.log(gutil.colors.red(err.message))
+    this.emit('end')
+  })
+  .pipe(source('bundle.js'))
+  .pipe(buffer())
+  .pipe(sourcemaps.init({ loadMaps: true }))
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest('public/js/'))
 }
+
 
 gulp.task('browserify', () => {
   return bundle()
 })
 
 gulp.task('watchify', () => {
-  return bundle({ watch: true })
+  const watchify = require('watchify')
+  bundler = watchify(bundler)
+  bundler.on('update', () => {
+    gutil.log('-> bundling...')
+    bundle()
+  })
+  return bundle()
 })
 
 gulp.task('sass', () => {
