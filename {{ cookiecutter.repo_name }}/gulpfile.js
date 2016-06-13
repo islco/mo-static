@@ -1,7 +1,6 @@
 'use strict'
 
 const fs = require('fs')
-const path = require('path')
 const gulp = require('gulp')
 const gutil = require('gulp-util')
 const del = require('del')
@@ -25,8 +24,10 @@ const plumber = require('gulp-plumber')
 const critical = require('critical').stream
 const runSequence = require('run-sequence')
 const config = require('./config').get()
-const browserslist = 'last 2 versions, Firefox ESR'  // see https://github.com/ai/browserslist#queries
-const extrasGlob = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
+
+const COMPATIBILITY = ['last 2 versions', 'Firefox ESR', 'not ie <= 10']  // see https://github.com/ai/browserslist#queries
+
+const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
 let bundler = browserify({ entry: true, debug: true })
   .add('src/js/app.js')
@@ -60,23 +61,24 @@ gulp.task('watchify', () => {
     gutil.log('-> bundling...')
     bundle()
   })
-  return bundle()
+  return bundle
 })
 
 gulp.task('sass', () => {
   return gulp.src('src/scss/**/*.scss')
     .pipe(plumber())
     .pipe(stylelint({
-      browsers: browserslist,
       syntax: 'scss',
       reporters: [ { formatter: 'string', console: true } ],
       failAfterError: false
     }))
     .pipe(sourcemaps.init())
     .pipe(sass({% if cookiecutter.use_foundation_sites == 'y' -%}{
-      includePaths: [path.join(path.dirname(require.resolve('foundation-sites')), '../scss')]
+      includePaths: ['node_modules/foundation-sites/scss']
     }{%- endif %}))
-    .pipe(postcss([autoprefixer({ browsers: browserslist })]))
+    .pipe(postcss([autoprefixer({
+      browsers: COMPATIBILITY
+    })]))
     .pipe(sourcemaps.write())
     .pipe(plumber.stop())
     .pipe(gulp.dest('public/css/'))
@@ -93,7 +95,7 @@ gulp.task('nunjucks', () => {
 })
 
 gulp.task('extras', () => {
-  return gulp.src(extrasGlob)
+  return gulp.src(EXTRAS_GLOB)
     .pipe(gulp.dest('public/'))
 })
 
@@ -106,7 +108,7 @@ gulp.task('watch', ['watchify'], () => {
 
   gulp.watch('src/scss/**/*.scss', ['sass'])
   gulp.watch('src/**/*.html', ['nunjucks'])
-  gulp.watch(extrasGlob, ['extras'])
+  gulp.watch(EXTRAS_GLOB, ['extras'])
 })
 
 gulp.task('rev', () => {
@@ -126,6 +128,7 @@ gulp.task('rev:replace', ['rev'], () => {
 
 gulp.task('minify', ['rev:replace', 'critical'], () => {
   return gulp.src(['public/**/*'], { base: 'public/' })
+    .pipe(plumber())
     // Only target the versioned files with the hash
     // Those files have a - and a 10 character string
     .pipe(gulpif(/-\w{10}\.js$/, uglify({
@@ -149,6 +152,7 @@ gulp.task('minify', ['rev:replace', 'critical'], () => {
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true
     })))
+    .pipe(plumber.stop())
     .pipe(gulp.dest('public/'))
 })
 
@@ -167,27 +171,15 @@ gulp.task('clean', () => {
 })
 
 gulp.task('build', (done) => {
-  runSequence(
-    'clean',
-    ['browserify', 'nunjucks', 'sass', 'extras'],
-    done
-  )
+  runSequence('clean', ['browserify', 'nunjucks', 'sass', 'extras'], done)
 })
 
 gulp.task('build:production', (done) => {
-  runSequence(
-    'build',
-    ['rev:replace', 'minify', 'critical'],
-    done
-  )
+  runSequence('build', ['rev:replace', 'minify', 'critical'], done)
 })
 
 gulp.task('start', (done) => {
-  runSequence(
-    'build',
-    'watch',
-    done
-  )
+  runSequence('build', 'watch', done)
 })
 
 gulp.task('default', ['build'])
