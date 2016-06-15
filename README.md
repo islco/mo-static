@@ -8,7 +8,6 @@ Mo-static is a static project template with batteries included.
 
 ## Features
 
-* [cookiecutter](https://github.com/audreyr/cookiecutter)
 * [editorconfig](http://editorconfig.org/)
 * [nconf](https://github.com/indexzero/nconf)
 * [Gulp](http://gulpjs.com/)
