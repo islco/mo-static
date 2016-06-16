@@ -42,7 +42,7 @@ npm run build
 
 All configuration variables should be defined in the `nconf.defaults` and it should be indicated if they are required.
 
-The configuration is passed to [envyify](https://github.com/hughsk/envify) for transforming with browserify. This
+The configuration is passed to [envyify](https://github.com/zertosh/loose-envify) for transforming with browserify. This
 means you can use `process.env.FOO` in your browserified JavaScript files and the appropriate environment variable
 will be substituted during the build process to be shipped in the browser.
 
