@@ -1,6 +1,5 @@
 'use strict'
 
-const fs = require('fs')
 const gulp = require('gulp')
 const gutil = require('gulp-util')
 const del = require('del')
@@ -16,39 +15,42 @@ const browserify = require('browserify')
 const envify = require('loose-envify/custom')
 const rev = require('gulp-rev')
 const revReplace = require('gulp-rev-replace')
-const uglify = require('gulp-uglify')
-const cleancss = require('gulp-clean-css')
 const htmlmin = require('gulp-htmlmin')
-const gulpif = require('gulp-if')
+const cleancss = require('gulp-clean-css')
+const uglify = require('gulp-uglify')
 const plumber = require('gulp-plumber')
 const critical = require('critical').stream
+const purifycss = require('gulp-purifycss')
 const runSequence = require('run-sequence')
-const config = require('./config').get()
 
+const CONFIG = require('./config').get()
 const COMPATIBILITY = ['last 2 versions', 'Firefox ESR', 'not ie <= 10']  // see https://github.com/ai/browserslist#queries
-
 const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
 let bundler = browserify({ entry: true, debug: true })
   .add('src/js/app.js')
   .transform('eslintify', { continuous: true })
   .transform('babelify')
-  .transform(envify(config))
+  .transform(envify(CONFIG))
   .transform('uglifyify')
 
 function bundle() {
   return bundler.bundle()
-  .on('error', function(err) {
-    gutil.log(gutil.colors.red(err.message))
-    this.emit('end')
-  })
-  .pipe(source('bundle.js'))
-  .pipe(buffer())
-  .pipe(sourcemaps.init({ loadMaps: true }))
-  .pipe(sourcemaps.write())
-  .pipe(gulp.dest('public/js/'))
+    .on('error', err => {
+      gutil.log(gutil.colors.red(err.message))
+      this.emit('end')
+    })
+    .pipe(source('bundle.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('public/js/'))
 }
 
+
+gulp.task('clean', () => {
+  return del('public/')
+})
 
 gulp.task('browserify', () => {
   return bundle()
@@ -87,7 +89,7 @@ gulp.task('sass', () => {
 gulp.task('nunjucks', () => {
   return gulp.src(['src/templates/**/*.html', '!**/_*'])
     .pipe(plumber())
-    .pipe(nunjucks.compile(config, {
+    .pipe(nunjucks.compile(CONFIG, {
       throwOnUndefined: true
     }))
     .pipe(plumber.stop())
@@ -96,6 +98,25 @@ gulp.task('nunjucks', () => {
 
 gulp.task('extras', () => {
   return gulp.src(EXTRAS_GLOB)
+    .pipe(gulp.dest('public/'))
+})
+
+gulp.task('critical', () => {
+  return gulp.src('public/**/*.html')
+    .pipe(critical({
+      base: 'public/',
+      inline: true,
+      dimensions: [{
+        width: 1336,  // desktop
+        height: 768
+      }, {
+        width: 1024,  // tablet
+        height: 768
+      }, {
+        width: 360,  // mobile
+        height: 640
+      }]
+    }))
     .pipe(gulp.dest('public/'))
 })
 
@@ -112,7 +133,7 @@ gulp.task('watch', ['watchify'], () => {
 })
 
 gulp.task('rev', () => {
-  return gulp.src(['public/**/*', '!**/*.html'], { base: 'public' })
+  return gulp.src(['public/**/*', '!**/*.html', '!**/*.txt', '!**/*.ico'])
     .pipe(rev())
     .pipe(gulp.dest('public/'))
     .pipe(rev.manifest())
@@ -121,61 +142,72 @@ gulp.task('rev', () => {
 
 gulp.task('rev:replace', ['rev'], () => {
   const manifest = gulp.src('public/rev-manifest.json')
-  return gulp.src('public/**/*')
+  return gulp.src(['public/**/*'])
     .pipe(revReplace({ manifest: manifest }))
     .pipe(gulp.dest('public/'))
 })
 
-gulp.task('minify', ['rev:replace', 'critical'], () => {
-  return gulp.src(['public/**/*'], { base: 'public/' })
+gulp.task('purifycss', () => {
+  return gulp.src('public/**/*.css')
+    .pipe(purifycss([
+      'public/**/*.js', 'public/**/*.html'
+    ]))
+    .pipe(gulp.dest('public/'))
+})
+
+gulp.task('minify:html', () => {
+  return gulp.src(['public/**/*.html'])
     .pipe(plumber())
-    // Only target the versioned files with the hash
-    // Those files have a - and a 10 character string
-    .pipe(gulpif(/-\w{10}\.js$/, uglify({
+    .pipe(htmlmin({
+      collapseBooleanAttributes: true,
+      collapseWhitespace: true,
+      minifyCSS: true,
+      minifyJS: {
+        preserveComments: 'license',
+        compressor: {
+          screw_ie8: true
+        }
+      },
+      removeComments: true,
+      removeRedundantAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true
+    }))
+    .pipe(plumber.stop())
+    .pipe(gulp.dest('public/'))
+})
+
+gulp.task('minify:css', () => {
+  return gulp.src('public/**/*-*.css')
+    .pipe(cleancss())
+    .pipe(gulp.dest('public/'))
+})
+
+gulp.task('minify:js', () => {
+  const fs = require('fs')
+  return gulp.src('public/**/*-*.js')
+    .pipe(uglify({
       preserveComments: 'license',
       compressor: {
         screw_ie8: true
       },
       output: {
-        preamble: (function() {
+        preamble: (() => {
           var banner = fs.readFileSync('banner.txt', 'utf8')
           banner = banner.replace('@date', (new Date()))
           return banner
         }())
       }
-    })))
-    .pipe(gulpif(/-\w{10}\.css$/, cleancss()))
-    .pipe(gulpif('*.html', htmlmin({
-      collapseWhitespace: true,
-      removeComments: true,
-      removeRedundantAttributes: true,
-      removeScriptTypeAttributes: true,
-      removeStyleLinkTypeAttributes: true
-    })))
-    .pipe(plumber.stop())
+    }))
     .pipe(gulp.dest('public/'))
 })
 
-gulp.task('critical', ['rev:replace'], function() {
-  return gulp.src('public/**/*.html')
-  .pipe(critical({
-    base: 'public/',
-    inline: true,
-    minify: true
-  }))
-  .pipe(gulp.dest('public/'))
-})
-
-gulp.task('clean', () => {
-  return del('public/')
-})
-
 gulp.task('build', (done) => {
-  runSequence('clean', ['browserify', 'nunjucks', 'sass', 'extras'], done)
+  runSequence('clean', ['browserify', 'nunjucks', 'sass', 'extras'], 'critical', done)
 })
 
 gulp.task('build:production', (done) => {
-  runSequence('build', ['rev:replace', 'minify', 'critical'], done)
+  runSequence('build', 'rev:replace', 'purifycss', ['minify:html', 'minify:css', 'minify:js'], done)
 })
 
 gulp.task('start', (done) => {
