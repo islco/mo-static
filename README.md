@@ -88,8 +88,8 @@ tags are included to prominently display image content on tweets.
 
 ### robots.txt
 
-By default, the `robots.txt` file is configured to disallow search spiders. Depending on your project,
-you should change this to meet your needs, see [robotstxt.org](http://www.robotstxt.org/robotstxt.html).
+By default, the `robots.txt` file is configured allow search spiders. Depending on your project, you
+should change this to meet your needs, see [robotstxt.org](http://www.robotstxt.org/robotstxt.html).
 
 ### humans.txt
 
