@@ -21,8 +21,11 @@ const uglify = require('gulp-uglify')
 const plumber = require('gulp-plumber')
 const critical = require('critical').stream
 const purifycss = require('gulp-purifycss')
+const header = require('gulp-header')
 const runSequence = require('run-sequence')
+const fs = require('fs')
 
+const BANNER = fs.readFileSync('banner.txt', 'utf8').replace('@date', (new Date()))
 const CONFIG = require('./config').get()
 const COMPATIBILITY = ['last 2 versions', 'Firefox ESR', 'not ie <= 10']  // see https://github.com/ai/browserslist#queries
 const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
@@ -142,16 +145,14 @@ gulp.task('rev', () => {
 
 gulp.task('rev:replace', ['rev'], () => {
   const manifest = gulp.src('public/rev-manifest.json')
-  return gulp.src(['public/**/*'])
+  return gulp.src('public/**/*')
     .pipe(revReplace({ manifest: manifest }))
     .pipe(gulp.dest('public/'))
 })
 
 gulp.task('purifycss', () => {
   return gulp.src('public/**/*.css')
-    .pipe(purifycss([
-      'public/**/*.js', 'public/**/*.html'
-    ]))
+    .pipe(purifycss(['public/**/*.js', 'public/**/*.html']))
     .pipe(gulp.dest('public/'))
 })
 
@@ -164,9 +165,7 @@ gulp.task('minify:html', () => {
       minifyCSS: true,
       minifyJS: {
         preserveComments: 'license',
-        compressor: {
-          screw_ie8: true
-        }
+        compressor: { screw_ie8: true }
       },
       removeComments: true,
       removeRedundantAttributes: true,
@@ -180,24 +179,16 @@ gulp.task('minify:html', () => {
 gulp.task('minify:css', () => {
   return gulp.src('public/**/*-*.css')
     .pipe(cleancss())
+    .pipe(header(BANNER))
     .pipe(gulp.dest('public/'))
 })
 
 gulp.task('minify:js', () => {
-  const fs = require('fs')
   return gulp.src('public/**/*-*.js')
     .pipe(uglify({
       preserveComments: 'license',
-      compressor: {
-        screw_ie8: true
-      },
-      output: {
-        preamble: (() => {
-          var banner = fs.readFileSync('banner.txt', 'utf8')
-          banner = banner.replace('@date', (new Date()))
-          return banner
-        }())
-      }
+      compressor: { screw_ie8: true },
+      output: { preamble: BANNER }
     }))
     .pipe(gulp.dest('public/'))
 })

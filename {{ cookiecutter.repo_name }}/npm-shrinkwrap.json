@@ -1482,6 +1482,11 @@
         }
       }
     },
+    "concat-with-sourcemaps": {
+      "version": "1.0.4",
+      "from": "concat-with-sourcemaps@*",
+      "resolved": "https://registry.npmjs.org/concat-with-sourcemaps/-/concat-with-sourcemaps-1.0.4.tgz"
+    },
     "configstore": {
       "version": "2.0.0",
       "from": "configstore@>=2.0.0 <3.0.0",
@@ -3400,6 +3405,11 @@
           }
         }
       }
+    },
+    "gulp-header": {
+      "version": "1.8.2",
+      "from": "gulp-header@latest",
+      "resolved": "https://registry.npmjs.org/gulp-header/-/gulp-header-1.8.2.tgz"
     },
     "gulp-htmlmin": {
       "version": "1.2.0",

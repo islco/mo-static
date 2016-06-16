@@ -23,6 +23,7 @@
     {% if cookiecutter.use_foundation_sites == 'y' -%}"foundation-sites": "6.2.3",{%- endif %}
     "gulp": "3.9.0",
     "gulp-clean-css": "2.0.4",
+    "gulp-header": "1.8.2",
     "gulp-htmlmin": "1.2.0",
     "gulp-nunjucks": "2.2.0",
     "gulp-plumber": "1.1.0",
