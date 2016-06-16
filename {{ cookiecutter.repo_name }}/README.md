@@ -94,6 +94,7 @@ with a few small modifications:
 * 2 spaces for indentation.
 * No semicolons.
 * Only single quotes.
+* Required trailing commas.
 * Unix linebreaks.
 
 If you use global variables that are already defined in the DOM, add them to the `globals` object
