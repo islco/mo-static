@@ -8,11 +8,12 @@ import EXTRAS_GLOB from './gulp/build'
 
 
 gulp.task('build', (done) => {
-  runSequence('clean', ['browserify', 'nunjucks', 'sass', 'extras'], 'critical', done)
+  runSequence('clean', ['browserify', 'nunjucks', 'sass', 'extras'], done)
 })
 
 gulp.task('build:production', (done) => {
-  runSequence('build', 'rev:replace', 'purifycss', ['minify:html', 'minify:css', 'minify:js'], done)
+  runSequence('build', 'rev:replace', 'purifycss', 'critical',
+              ['minify:html', 'minify:css', 'minify:js'], done)
 })
 
 gulp.task('watch', ['build', 'watchify'], () => {

@@ -13,8 +13,8 @@ import browserify from 'browserify'
 import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
 import critical from 'critical'
+import CONFIG from '../config'
 
-const CONFIG = require('../config').get()
 const COMPATIBILITY = ['last 2 versions', 'Firefox ESR', 'not ie <= 10']  // see https://github.com/ai/browserslist#queries
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
@@ -66,7 +66,7 @@ gulp.task('sass', () =>
     }))
     .pipe(sourcemaps.init())
     .pipe(sass({% if cookiecutter.use_foundation_sites == 'y' -%}{
-      includePaths: ['node_modules/foundation-sites/scss']
+      includePaths: ['node_modules/foundation-sites/scss'],
     }{%- endif %}))
     .pipe(postcss([autoprefixer({
       browsers: COMPATIBILITY,
@@ -102,6 +102,6 @@ gulp.task('critical', () =>
       }, {
         width: 360,  // mobile
         height: 640,
-      }]
+      }],
     }))
     .pipe(gulp.dest('public/')))

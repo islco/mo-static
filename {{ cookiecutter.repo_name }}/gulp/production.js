@@ -66,6 +66,6 @@ gulp.task('minify:js', () =>
       },
       output: {
         preamble: BANNER,
-      }
+      },
     }))
     .pipe(gulp.dest('public/')))
