@@ -12,8 +12,7 @@ import buffer from 'vinyl-buffer'
 import browserify from 'browserify'
 import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
-import critical from 'critical'
-import CONFIG from '../config'
+import config from '../config'
 
 const COMPATIBILITY = ['last 2 versions', 'Firefox ESR', 'not ie <= 10']  // see https://github.com/ai/browserslist#queries
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
@@ -22,7 +21,7 @@ let bundler = browserify({ entry: true, debug: true })
   .add('src/js/app.js')
   .transform('eslintify', { continuous: true })
   .transform('babelify')
-  .transform(envify(CONFIG))
+  .transform(envify(config.get()))
   .transform('uglifyify')
 
 function bundle() {
@@ -78,7 +77,7 @@ gulp.task('sass', () =>
 gulp.task('nunjucks', () =>
   gulp.src(['src/templates/**/*.html', '!**/_*'])
     .pipe(plumber())
-    .pipe(nunjucks.compile(CONFIG, {
+    .pipe(nunjucks.compile(config.get(), {
       throwOnUndefined: true,
     }))
     .pipe(plumber.stop())
@@ -86,22 +85,4 @@ gulp.task('nunjucks', () =>
 
 gulp.task('extras', () =>
   gulp.src(EXTRAS_GLOB)
-    .pipe(gulp.dest('public/')))
-
-gulp.task('critical', () =>
-  gulp.src('public/**/*.html')
-    .pipe(critical.stream({
-      base: 'public/',
-      inline: true,
-      dimensions: [{
-        width: 1336,  // desktop
-        height: 768,
-      }, {
-        width: 1024,  // tablet
-        height: 768,
-      }, {
-        width: 360,  // mobile
-        height: 640,
-      }],
-    }))
     .pipe(gulp.dest('public/')))

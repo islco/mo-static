@@ -5,6 +5,4 @@ nconf.env().argv()
 nconf.defaults({
 })
 
-const CONFIG = nconf.get()
-
-export { CONFIG }
+export default nconf
