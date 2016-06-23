@@ -4,7 +4,8 @@
   "description": "{{ cookiecutter.description }}",
   "scripts": {
     "build": "gulp build:production",
-    "dev": "gulp start"
+    "dev": "gulp start",
+    "postinstall": "if [ \"$NODE_ENV\" = \"production\" ]; then npm run build; fi"
   },
   "author": "{{ cookiecutter.author }}",
   "dependencies": {
