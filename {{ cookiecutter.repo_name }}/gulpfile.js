@@ -23,7 +23,9 @@ const critical = require('critical').stream
 const purifycss = require('gulp-purifycss')
 const header = require('gulp-header')
 const runSequence = require('run-sequence')
+{% if cookiecutter.use_vue_components == 'y' -%}
 const vueify = require('vueify')
+{%- endif %}
 const fs = require('fs')
 
 const BANNER = fs.readFileSync('banner.txt', 'utf8').replace('@date', (new Date()))
@@ -33,7 +35,13 @@ const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot
 
 let bundler = browserify({ entry: true, debug: true })
   .add('src/js/app.js')
-  .transform(vueify)
+  {% if cookiecutter.use_vue_components == 'y' -%}
+  .transform(vueify, {
+    sass: {
+      includePaths: ['node_modules/foundation-sites/scss', 'src/scss']
+    },
+  })
+  {%- endif %}
   .transform('eslintify', { continuous: true })
   .transform('babelify')
   .transform(envify(CONFIG))
@@ -131,9 +139,16 @@ gulp.task('watch', ['watchify'], () => {
     server: 'public',
     files: 'public/**/*'
   })
-
-  gulp.watch('src/scss/**/*.scss', ['sass'])
+  {% if cookiecutter.use_vue_components == 'y' -%}
+  gulp.watch('src/**/*.scss', ['sass', 'browserify'])
+  {%- endif %}
+  {% if cookiecutter.use_vue_components == 'n' -%}
+  gulp.watch('src/**/*.scss', ['sass'])
+  {%- endif %}
   gulp.watch('src/**/*.html', ['nunjucks'])
+  {% if cookiecutter.use_vue_components == 'y' -%}
+  gulp.watch('src/**/*.vue', ['browserify'])
+  {%- endif %}
   gulp.watch(EXTRAS_GLOB, ['extras'])
 })
 

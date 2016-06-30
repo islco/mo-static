@@ -3,6 +3,6 @@
 
 export default {
   ready() {
-    console.log('Header component ready.')
+    console.log('Header component ready. Are you?')
   }
 }
