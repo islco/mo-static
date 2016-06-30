@@ -23,6 +23,7 @@ const critical = require('critical').stream
 const purifycss = require('gulp-purifycss')
 const header = require('gulp-header')
 const runSequence = require('run-sequence')
+const vueify = require('vueify')
 const fs = require('fs')
 
 const BANNER = fs.readFileSync('banner.txt', 'utf8').replace('@date', (new Date()))
@@ -32,6 +33,7 @@ const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot
 
 let bundler = browserify({ entry: true, debug: true })
   .add('src/js/app.js')
+  .transform(vueify)
   .transform('eslintify', { continuous: true })
   .transform('babelify')
   .transform(envify(CONFIG))

@@ -4,5 +4,6 @@
   "author": "ISL",
   "email": "dev@isl.co",
   "description": "",
-  "use_foundation_sites": "y"
+  "use_foundation_sites": "y",
+  "use_vue_components": "n"
 }
