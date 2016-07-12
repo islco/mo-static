@@ -26,8 +26,8 @@
         <meta name="twitter:image" content="">
 
         {# loadCSS #}
-        <link rel="preload" href="/css/app.css" as="style" onload="this.rel='stylesheet'">
-        <noscript><link rel="stylesheet" href="/css/app.css"></noscript>
+        <link rel="preload" href="/assets/css/app.css" as="style" onload="this.rel='stylesheet'">
+        <noscript><link rel="stylesheet" href="/assets/css/app.css"></noscript>
         <script>
             /*! loadCSS: load a CSS file asynchronously. [c]2016 @scottjehl, Filament Group, Inc. Licensed MIT */
             !function(e){"use strict"
@@ -49,7 +49,7 @@
             t.addEventListener&&t.addEventListener("load",function(){t.clearInterval(n)}),t.attachEvent&&t.attachEvent("onload",function(){t.clearInterval(n)})}}}(this)
         </script>
 
-        <script src="/js/bundle.js" async defer></script>
+        <script src="/assets/js/bundle.js" async defer></script>
     </head>
     <body>
         {% block content %}

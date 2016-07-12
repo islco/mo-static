@@ -1,5 +1,13 @@
 {
-    "root": "public/",
-    "clean_urls": true,
-    "https_only": true
+  "root": "public/",
+  "error_page": "404.html",
+  "https_only": true,
+  "headers": {
+    "**": {
+      "Cache-Control": "public, max-age=300"
+    },
+    "/assets/**": {
+      "Cache-Control": "public, max-age=31536000"
+    }
+  }
 }
