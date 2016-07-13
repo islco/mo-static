@@ -31,7 +31,7 @@ const COMPATIBILITY = ['last 2 versions', 'Firefox ESR', 'not ie <= 10']  // see
 const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
 let bundler = browserify({ entry: true, debug: true })
-  .add('src/js/app.js')
+  .add('src/assets/js/app.js')
   .transform('eslintify', { continuous: true })
   .transform('babelify')
   .transform(envify(CONFIG))
@@ -47,7 +47,7 @@ function bundle() {
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('public/js/'))
+    .pipe(gulp.dest('public/assets/js/'))
 }
 
 
@@ -70,7 +70,7 @@ gulp.task('watchify', () => {
 })
 
 gulp.task('sass', () => {
-  return gulp.src('src/scss/**/*.scss')
+  return gulp.src('src/assets/scss/**/*.scss')
     .pipe(plumber())
     .pipe(stylelint({
       syntax: 'scss',
@@ -86,7 +86,7 @@ gulp.task('sass', () => {
     })]))
     .pipe(sourcemaps.write())
     .pipe(plumber.stop())
-    .pipe(gulp.dest('public/css/'))
+    .pipe(gulp.dest('public/assets/css/'))
 })
 
 gulp.task('nunjucks', () => {
@@ -130,7 +130,7 @@ gulp.task('watch', ['watchify'], () => {
     files: 'public/**/*'
   })
 
-  gulp.watch('src/scss/**/*.scss', ['sass'])
+  gulp.watch('src/assets/scss/**/*.scss', ['sass'])
   gulp.watch('src/**/*.html', ['nunjucks'])
   gulp.watch(EXTRAS_GLOB, ['extras'])
 })
