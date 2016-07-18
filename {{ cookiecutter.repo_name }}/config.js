@@ -1,8 +1,8 @@
-var nconf = require('nconf');
+import nconf from 'nconf'
 
-nconf.env().argv();
+nconf.env().argv()
 
 nconf.defaults({
-});
+})
 
-module.exports = nconf;
+export default nconf

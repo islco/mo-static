@@ -24,7 +24,7 @@ First, install your dependencies:
 npm install
 ```
 
-To start a Browsersync server:
+To start a Browsersync server and watch files for development:
 
 ```
 npm run dev
@@ -36,9 +36,15 @@ or to build, cachebust, and minify all assets for production:
 npm run build
 ```
 
+You can also optimize PNG and JPEG images using [tinify](https://www.npmjs.com/package/tinify):
+
+```
+npm run tinify
+```
+
 ## Configuration
 
-[nconf](https://github.com/indexzero/nconf) is used to handle configuration and lives in `config.js`.
+[nconf](https://github.com/indexzero/nconf) is used to handle configuration which lives in `config.js`.
 
 All configuration variables should be defined in the `nconf.defaults` and it should be indicated if they are required.
 
@@ -94,7 +100,6 @@ with a few small modifications:
 * 2 spaces for indentation.
 * No semicolons.
 * Only single quotes.
-* Required trailing commas.
 * Unix linebreaks.
 
 If you use global variables that are already defined in the DOM, add them to the `globals` object
@@ -111,7 +116,6 @@ with a few small modifications:
 * Only single quotes.
 * No vendor prefixes (autoprefixer is preferred).
 * Max of 2 adjacent empty lines.
-* Required [hierarchical selectors](http://stylelint.io/user-guide/rules/indentation/#hierarchicalselectors-truefalse).
 * Required empty line between nested selectors, except first nested.
 * No [browser hacks](https://github.com/stylelint/stylelint/tree/master/src/rules/no-browser-hacks).
 * No [unsupported browser features](http://stylelint.io/user-guide/rules/no-unsupported-browser-features/).

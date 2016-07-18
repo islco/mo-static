@@ -16,7 +16,7 @@ Mo-static is a static project template with batteries included.
 * [SASS](https://github.com/dlmanning/gulp-sass) (w/[Autoprefixer](https://autoprefixer.github.io/))
 * [Stylelint](https://github.com/stylelint/stylelint) (w/[stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard) and [stylelint-selector-bem-pattern](https://github.com/davidtheclark/stylelint-selector-bem-pattern))
 * [Nunjucks](https://mozilla.github.io/nunjucks/)
-* [BrowserSync](http://www.browsersync.io/)
+* [Browsersync](http://www.browsersync.io/)
 * [UglifyJS](https://github.com/mishoo/UglifyJS2/)
 * [CleanCSS](https://github.com/jakubpawlowicz/clean-css/tree/3.4)
 * [html-minifier](https://github.com/kangax/html-minifier)
