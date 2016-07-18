@@ -3,18 +3,24 @@
 {{ cookiecutter.description }}
 
 
-## Requirements
+## Requirements:
 
-* Node >=4.4.0
-* NPM >=3.0.0
+- Node 6.3.x
+- nvm
 
-It's recommended that you use a node version manager, like [nvm](https://github.com/creationix/nvm).
+## Installation
 
 ```
-nvm install
-nvm use
+$ nvm install
+$ npm install
 ```
 
+## Quick Start
+
+```
+$ nvm use
+$ npm run dev
+```
 
 ## Usage
 
