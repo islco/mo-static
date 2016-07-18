@@ -45,9 +45,14 @@
     "stylelint-selector-bem-pattern": "0.2.3",
     "uglifyify": "3.0.1",
     "vinyl-buffer": "1.0.0",
+    {% if cookiecutter.use_vue_components == 'y' -%}"vue": "^1.0.26",{%- endif %}
     "vinyl-source-stream": "1.1.0"
   },
   "devDependencies": {
+    {% if cookiecutter.use_vue_components == 'y' -%}
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "vueify": "^8.6.0",
+    {%- endif %}
     "browser-sync": "2.10.0",
     "watchify": "3.6.0"
   },

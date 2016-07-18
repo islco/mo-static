@@ -2,6 +2,9 @@
 
 {% block content %}
 {% endraw %}
+{% if cookiecutter.use_vue_components == 'y' -%}
+<header-component></header-component>
+{%- endif %}
 {% if cookiecutter.use_foundation_sites == 'y' -%}
 {% raw %}
 <main role="main">
