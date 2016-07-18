@@ -14,7 +14,6 @@ import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
 import config from '../config'
 
-const COMPATIBILITY = ['last 2 versions', 'Firefox ESR', 'not ie <= 10']  // see https://github.com/ai/browserslist#queries
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
 let bundler = browserify({ entry: true, debug: true })
@@ -68,7 +67,19 @@ gulp.task('sass', () =>
       includePaths: ['node_modules/foundation-sites/scss'],
     }{%- endif %}))
     .pipe(postcss([autoprefixer({
-      browsers: COMPATIBILITY,
+      // see https://github.com/ai/browserslist#queries
+      // and https://github.com/google/web-starter-kit/blob/128b2efdab595e0a4c8a563fcf1d1724ef98b8aa/gulpfile.babel.js#L73
+      browsers: [
+        'ie >= 10',
+        'ie_mob >= 10',
+        'ff >= 30',
+        'chrome >= 34',
+        'safari >= 7',
+        'opera >= 23',
+        'ios >= 7',
+        'android >= 4.4',
+        'bb >= 10'
+      ]
     })]))
     .pipe(sourcemaps.write())
     .pipe(plumber.stop())
