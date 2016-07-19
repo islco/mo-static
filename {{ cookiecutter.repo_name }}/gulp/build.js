@@ -16,8 +16,7 @@ import config from '../config'
 
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
 
-let bundler = browserify({ entry: true, debug: true })
-  .add('src/js/app.js')
+let bundler = browserify(['src/static/js/app.js'], { debug: true })
   .transform('eslintify', { continuous: true })
   .transform('babelify')
   .transform(envify(config.get()))
@@ -33,7 +32,7 @@ function bundle() {
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('public/js/'))
+    .pipe(gulp.dest('public/static/js/'))
 }
 
 
@@ -52,7 +51,7 @@ gulp.task('watchify', () => {
 })
 
 gulp.task('sass', () =>
-  gulp.src('src/scss/**/*.scss')
+  gulp.src('src/static/scss/**/*.scss')
     .pipe(plumber())
     .pipe(stylelint({
       syntax: 'scss',
@@ -83,7 +82,7 @@ gulp.task('sass', () =>
     })]))
     .pipe(sourcemaps.write())
     .pipe(plumber.stop())
-    .pipe(gulp.dest('public/css/')))
+    .pipe(gulp.dest('public/static/css/')))
 
 gulp.task('nunjucks', () =>
   gulp.src(['src/templates/**/*.html', '!**/_*'])

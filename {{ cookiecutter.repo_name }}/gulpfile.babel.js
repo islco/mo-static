@@ -22,8 +22,9 @@ gulp.task('watch', ['build', 'watchify'], () => {
     files: 'public/**/*',
   })
 
-  gulp.watch('src/scss/**/*.scss', ['sass'])
-  gulp.watch('src/**/*.html', ['nunjucks'])
+  // watchify task handles js files
+  gulp.watch('src/static/scss/**/*.scss', ['sass'])
+  gulp.watch('src/templates/**/*.html', ['nunjucks'])
   gulp.watch(EXTRAS_GLOB, ['extras'])
 })
 
