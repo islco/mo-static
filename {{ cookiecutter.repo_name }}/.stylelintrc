@@ -12,7 +12,7 @@
       except: ["first-nested"],
       ignore: ["after-comment"]
     } ],
-    "selector-bem-pattern": {
+    "plugin/selector-bem-pattern": {
       "preset": "bem"
     },
     "string-quotes": "single"
