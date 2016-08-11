@@ -1,6 +1,5 @@
 import gulp from 'gulp'
 import runSequence from 'run-sequence'
-import browserSync from 'browser-sync'
 import './gulp/build'
 import './gulp/production'
 import './gulp/utils'
@@ -17,6 +16,7 @@ gulp.task('build:production', (done) => {
 })
 
 gulp.task('watch', ['build', 'watchify'], () => {
+  const browserSync = require('browser-sync')
   browserSync({
     server: 'public',
     files: 'public/**/*',
