@@ -9,7 +9,6 @@
   "rules": {
     "indentation": null,
     "max-empty-lines": 2,
-    "no-browser-hacks",
     "property-no-vendor-prefix": true,
     "rule-nested-empty-line-before":  [ "always-multi-line", {
       except: ["first-nested"],
@@ -17,7 +16,6 @@
     } ],
     "plugin/selector-bem-pattern": {
       "preset": "bem"
-    },
-    "string-quotes": "single"
+    }
   }
 }

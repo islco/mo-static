@@ -8,7 +8,7 @@
     "postinstall": "if [ \"$NODE_ENV\" = \"production\" ]; then npm run build; fi",
     "tinify": "gulp tinify"
   },
-  "author": "{{ cookiecutter.author }}",
+  "author": "{{ cookiecutter.author_name }}",
   "dependencies": {
     "autoprefixer": "6.1.0",
     "babel-core": "6.9.1",
