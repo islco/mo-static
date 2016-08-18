@@ -14,7 +14,7 @@ import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
 import config from '../config'
 
-export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2}'
+export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
 let bundler = browserify(['src/static/js/app.js'], { debug: true })
   .transform('eslintify', { continuous: true })
