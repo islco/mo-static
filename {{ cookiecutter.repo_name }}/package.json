@@ -23,6 +23,7 @@
     "eslint-config-airbnb": "6.2.0",
     "eslint-plugin-react": "4.3.0",
     "eslintify": "2.0.1",
+    "factor-vinylify": "3.0.4",
     {% if cookiecutter.use_foundation_sites == 'y' -%}"foundation-sites": "6.2.3",{%- endif %}
     "gulp": "3.9.0",
     "gulp-clean-css": "2.0.4",
