@@ -22,7 +22,7 @@ let bundler = browserify({
     'app.js',
   ],
   fullPaths: true,
-  basedir: './grandstand/static/js/',
+  basedir: './{{ bookiecutter.repo_name }}/static/js/',
   debug: true,
 }).plugin(vinylify, {
   outputs: [
