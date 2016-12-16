@@ -4,7 +4,6 @@ import del from 'del'
 import autoprefixer from 'autoprefixer'
 import postcss from 'gulp-postcss'
 import sass from 'gulp-sass'
-import stylelint from 'gulp-stylelint'
 import sourcemaps from 'gulp-sourcemaps'
 import nunjucks from 'gulp-nunjucks'
 import source from 'vinyl-source-stream'
@@ -17,7 +16,6 @@ import config from '../config'
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
 let bundler = browserify(['src/static/js/app.js'], { debug: true })
-  .transform('eslintify', { continuous: true })
   .transform('babelify')
   .transform(envify(config.get()))
   .transform('uglifyify')
@@ -53,14 +51,6 @@ gulp.task('watchify', () => {
 gulp.task('sass', () =>
   gulp.src('src/static/scss/**/*.scss')
     .pipe(plumber())
-    .pipe(stylelint({
-      syntax: 'scss',
-      reporters: [{
-        formatter: 'string',
-        console: true,
-      }],
-      failAfterError: false,
-    }))
     .pipe(sourcemaps.init())
     .pipe(sass({% if cookiecutter.use_foundation_sites == 'y' -%}{
       includePaths: ['node_modules/foundation-sites/scss'],
