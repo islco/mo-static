@@ -12,15 +12,27 @@ import buffer from 'vinyl-buffer'
 import browserify from 'browserify'
 import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
+import vinylify from 'factor-vinylify'
 import config from '../config'
 
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
-let bundler = browserify(['src/static/js/app.js'], { debug: true })
-  .transform('eslintify', { continuous: true })
-  .transform('babelify')
-  .transform(envify(config.get()))
-  .transform('uglifyify')
+let bundler = browserify({
+  entries: [
+    'app.js',
+  ],
+  fullPaths: true,
+  basedir: './{{ bookiecutter.repo_name }}/static/js/',
+  debug: true,
+}).plugin(vinylify, {
+  outputs: [
+    'app.bundle.js',
+  ],
+})
+.transform('eslintify', { continuous: true })
+.transform('babelify')
+.transform(envify(config.get()))
+.transform('uglifyify')
 
 function bundle() {
   return bundler.bundle()
@@ -28,13 +40,11 @@ function bundle() {
       gutil.log(gutil.colors.red(err.message))
       this.emit('end')
     })
-    .pipe(source('bundle.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('public/static/js/'))
 }
-
 
 gulp.task('clean', () => del('public/'))
 
