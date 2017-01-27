@@ -5,7 +5,7 @@
 
 ## Requirements:
 
-- Node 6.3.x
+- Node 6.x
 - nvm
 
 ## Installation
@@ -79,9 +79,6 @@ default. There is a list of everything you can add at [Foundation's Kitchen Sink
 To add more, uncomment the appropriate includes from the `app.scss` file along
 with the appropriate settings section for the component in the `_.settings.scss`
 file. This is described in detail at [Foundation's Sass docs](http://foundation.zurb.com/sites/docs/sass.html#adjusting-css-output).
-
-[Browserify-shim](https://github.com/thlorenz/browserify-shim) is used to bundle individual Foundation JavaScript plugins. When adding
-new plugins, you will need to update the shim configuration in `package.json` with the [appropriate Foundation files](http://foundation.zurb.com/sites/docs/javascript.html#file-structure).
 
 Foundation's documentation can be found at [foundation.zurb.com](http://foundation.zurb.com/sites/docs/).
 To get started with what's included by default, read these docs:
