@@ -9,10 +9,16 @@ import nunjucks from 'gulp-nunjucks'
 import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
 import config from '../config'
+import webpack from 'webpack-stream'
 
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
 gulp.task('clean', () => del('public/'))
+
+gulp.task('webpack', () =>
+  gulp.src('src/static/js/app.js')
+  .pipe(webpack(require('../webpack.config.js')))
+  .pipe(gulp.dest('dist/')))
 
 gulp.task('sass', () =>
   gulp.src('src/static/scss/**/*.scss')

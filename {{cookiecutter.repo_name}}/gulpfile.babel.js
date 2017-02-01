@@ -7,7 +7,7 @@ import EXTRAS_GLOB from './gulp/build'
 
 
 gulp.task('build', (done) => {
-  runSequence('clean', ['nunjucks', 'sass', 'extras'], done)
+  runSequence('clean', ['webpack', 'nunjucks', 'sass', 'extras'], done)
 })
 
 gulp.task('build:production', (done) => {
