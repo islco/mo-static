@@ -18,7 +18,7 @@ gulp.task('clean', () => del('public/'))
 gulp.task('webpack', () =>
   gulp.src('src/static/js/app.js')
   .pipe(webpack(require('../webpack.config.js')))
-  .pipe(gulp.dest('dist/')))
+  .pipe(gulp.dest('public/static/js/')))
 
 gulp.task('sass', () =>
   gulp.src('src/static/scss/**/*.scss')
