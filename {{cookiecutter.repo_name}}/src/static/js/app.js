@@ -1,7 +1,8 @@
 {% if cookiecutter.use_foundation_sites == 'y' -%}
-import $ from 'jquery'
-import 'foundation'
-import 'foundation-mediaquery'
+import 'script-loader!jquery'
+import 'script-loader!jquery-migrate'
+import 'script-loader!foundation-sites'
+import 'script-loader!foundation-sites/js/foundation.util.mediaQuery.js'
 
 
 // initialize foundation
