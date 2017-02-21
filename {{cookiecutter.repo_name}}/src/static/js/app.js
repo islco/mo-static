@@ -2,10 +2,19 @@
 import $ from 'jquery'
 import 'foundation'
 import 'foundation-mediaquery'
+import WebFont from 'webfontloader'
 
 
 // initialize foundation
 $(document).foundation()
+
+// Asyn web font loading
+// WebFont.load({
+//     custom: {
+//         families: [],
+//         urls: ['/static/css/fonts.css']
+//     }
+//  })
 
 {%- endif %}
 // example
