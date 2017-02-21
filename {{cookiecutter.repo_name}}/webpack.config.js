@@ -5,6 +5,20 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'public/static/js'),
     filename: 'bundle.js'
+  },
+  module: {
+    loaders: [
+      { test: /\.js$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/
+      }
+    ],
+    rules: [
+      {
+        test: /\.exec.js$/,
+        use: ['script-loader']
+      }
+    ]
   }
 }
 
