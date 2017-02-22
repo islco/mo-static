@@ -8,7 +8,7 @@ import WebFont from 'webfontloader'
 // initialize foundation
 $(document).foundation()
 
-// Asyn web font loading
+// Async web font loading
 // WebFont.load({
 //     custom: {
 //         families: [],
