@@ -7,7 +7,7 @@ import EXTRAS_GLOB from './gulp/build'
 
 
 gulp.task('build', (done) => {
-  runSequence('clean', ['browserify', 'nunjucks', 'sass', 'extras'], done)
+  runSequence('clean', ['browserify', 'nunjucks', 'css', 'extras'], done)
 })
 
 gulp.task('build:production', (done) => {
@@ -23,7 +23,8 @@ gulp.task('watch', ['build', 'watchify'], () => {
   })
 
   // watchify task handles js files
-  gulp.watch('src/static/scss/**/*.scss', ['sass'])
+  gulp.watch('src/static/js/**/*.js', ['webpack'])
+  gulp.watch('src/static/css/**/*.css', ['css'])
   gulp.watch('src/templates/**/*.html', ['nunjucks'])
   gulp.watch(EXTRAS_GLOB, ['extras'])
 })
