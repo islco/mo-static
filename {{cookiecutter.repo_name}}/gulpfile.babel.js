@@ -15,14 +15,13 @@ gulp.task('build:production', (done) => {
               'purifycss', 'critical', done)
 })
 
-gulp.task('watch', ['build', 'watchify'], () => {
+gulp.task('watch', ['build'], () => {
   const browserSync = require('browser-sync')
   browserSync({
     server: 'public',
     files: 'public/**/*',
   })
 
-  // watchify task handles js files
   gulp.watch('src/static/js/**/*.js', ['webpack'])
   gulp.watch('src/static/css/**/*.css', ['css'])
   gulp.watch('src/templates/**/*.html', ['nunjucks'])

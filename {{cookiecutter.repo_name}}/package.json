@@ -49,13 +49,7 @@
     "webpack-stream": "^3.2.0"
   },
   "devDependencies": {
-    "browser-sync": "2.10.0",
-    "watchify": "3.6.0"
-  },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
+    "browser-sync": "2.10.0"
   },
   "engines": {
     "npm": "^3",
