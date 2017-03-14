@@ -8,14 +8,15 @@ import nunjucks from 'gulp-nunjucks'
 import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
 import config from '../config'
-import webpack from 'webpack-stream'
+import webpackStream from 'webpack-stream'
+import webpack from 'webpack'
 
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
 gulp.task('clean', () => del('public/'))
 
 gulp.task('webpack', (callback) =>
-  webpack(require('../webpack.config.js'))
+  webpack(require('../webpack.config.js'), webpack)
   .pipe(gulp.dest('public/static/js/')))
 
 gulp.task('css', () =>
