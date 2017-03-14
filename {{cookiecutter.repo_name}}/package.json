@@ -4,7 +4,7 @@
   "description": "{{ cookiecutter.description }}",
   "scripts": {
     "build": "gulp build:production",
-    "lint": "stylelint ./src/static/scss/**/*.scss && eslint ./src/static/js/**/*.js",
+    "lint": "stylelint ./src/static/css/**/*.css && eslint ./src/static/js/**/*.js",
     "dev": "gulp watch",
     "postinstall": "if [ \"$NODE_ENV\" = \"production\" ]; then npm run build; fi",
     "tinify": "gulp tinify"
