@@ -16,7 +16,7 @@ export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,
 gulp.task('clean', () => del('public/'))
 
 gulp.task('webpack', (callback) =>
-  webpack(require('../webpack.config.js'), webpack)
+  webpackStream(require('../webpack.config.js'), webpack)
   .pipe(gulp.dest('public/static/js/')))
 
 gulp.task('css', () =>
