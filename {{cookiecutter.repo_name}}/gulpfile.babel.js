@@ -20,6 +20,7 @@ gulp.task('watch', ['build'], () => {
   browserSync({
     server: 'public',
     files: 'public/**/*',
+    open: false
   })
 
   gulp.watch('src/static/js/**/*.js', ['webpack'])
