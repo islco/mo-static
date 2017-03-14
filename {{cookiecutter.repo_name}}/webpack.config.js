@@ -14,8 +14,7 @@ const config = {
         use: [{
           loader: 'babel-loader',
           options: {
-            presets: ['es2017'],
-            plugins: ['babel-plugin-transform-object-rest-spread']
+            presets: ['es2017']
           }
         }]
       }
