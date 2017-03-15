@@ -71,32 +71,6 @@ nconf.defaults({
 })
 ```
 
-{% if cookiecutter.use_foundation_sites == 'y' -%}
-## Foundation
-
-[Foundation Sites](http://foundation.zurb.com/sites.html) 6.2.0 is included with a small set of components enabled by
-default. There is a list of everything you can add at [Foundation's Kitchen Sink](http://foundation.zurb.com/sites/docs/kitchen-sink.html).
-To add more, uncomment the appropriate includes from the `app.scss` file along
-with the appropriate settings section for the component in the `_.settings.scss`
-file. This is described in detail at [Foundation's Sass docs](http://foundation.zurb.com/sites/docs/sass.html#adjusting-css-output).
-
-[Browserify-shim](https://github.com/thlorenz/browserify-shim) is used to bundle individual Foundation JavaScript plugins. When adding
-new plugins, you will need to update the shim configuration in `package.json` with the [appropriate Foundation files](http://foundation.zurb.com/sites/docs/javascript.html#file-structure).
-
-Foundation's documentation can be found at [foundation.zurb.com](http://foundation.zurb.com/sites/docs/).
-To get started with what's included by default, read these docs:
-
-* [Global styles](http://foundation.zurb.com/sites/docs/global.html)
-* [Flex Grid](http://foundation.zurb.com/sites/docs/flex-grid.html) and [Media Queries](http://foundation.zurb.com/sites/docs/media-queries.html)
-* [Typography](http://foundation.zurb.com/sites/docs/typography-base.html) and [Helper Classes](http://foundation.zurb.com/sites/docs/typography-helpers.html)
-* [Forms](http://foundation.zurb.com/sites/docs/forms.html) and [Buttons](http://foundation.zurb.com/sites/docs/button.html)
-* [Button Group](http://foundation.zurb.com/sites/docs/button-group.html)
-* [Visibility Classes](http://foundation.zurb.com/sites/docs/visibility.html)
-* [Float Classes](http://foundation.zurb.com/sites/docs/float-classes.html)
-* [Flexbox Classes](http://foundation.zurb.com/sites/docs/flexbox.html)
-* [JavaScript](http://foundation.zurb.com/sites/docs/javascript.html)
-{%- endif %}
-
 ## ESlint
 
 [ESlint](http://eslint.org/) is used for static analysis of JavaScript files. By default,
