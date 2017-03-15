@@ -1,6 +1,7 @@
 import gulp from 'gulp'
 import del from 'del'
 import autoprefixer from 'autoprefixer'
+import suitcss from 'gulp-suitcss'
 import postcss from 'gulp-postcss'
 import precss from 'precss'
 import sourcemaps from 'gulp-sourcemaps'
@@ -20,9 +21,9 @@ gulp.task('webpack', (callback) =>
   .pipe(gulp.dest('public/static/js/')))
 
 gulp.task('css', () =>
-  gulp.src('src/static/css/**/*.css')
+  gulp.src('src/static/css/**/app.css')
     .pipe(sourcemaps.init())
-    .pipe(postcss([ precss, autoprefixer ]))
+    .pipe(suitcss())
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('public/static/css/'))
 )
