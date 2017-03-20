@@ -41,6 +41,7 @@
 @include foundation-flex-classes;
 {%- endif %}
 
-// Import base styles
-
 // Add BEM component imports/includes here
+
+// Add utility classes
+@import 'utilities';

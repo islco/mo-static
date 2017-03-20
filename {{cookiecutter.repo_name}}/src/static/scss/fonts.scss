@@ -1,8 +1,0 @@
-// Avoid FOUT while web fonts load
-.wf-loading {
-  visibility: hidden;
-}
-
-.wf-active, .wf-inactive {
-  visibility: visible;  
-}
