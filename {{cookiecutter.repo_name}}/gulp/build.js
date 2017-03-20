@@ -6,47 +6,19 @@ import postcss from 'gulp-postcss'
 import sass from 'gulp-sass'
 import sourcemaps from 'gulp-sourcemaps'
 import nunjucks from 'gulp-nunjucks'
-import source from 'vinyl-source-stream'
-import buffer from 'vinyl-buffer'
-import browserify from 'browserify'
 import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
 import config from '../config'
+import webpack from 'webpack-stream'
 
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
-let bundler = browserify(['src/static/js/app.js'], { debug: true })
-  .transform('babelify')
-  .transform(envify(config.get()))
-  .transform('uglifyify')
-
-function bundle() {
-  return bundler.bundle()
-    .on('error', err => {
-      gutil.log(gutil.colors.red(err.message))
-      this.emit('end')
-    })
-    .pipe(source('bundle.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('public/static/js/'))
-}
-
-
 gulp.task('clean', () => del('public/'))
 
-gulp.task('browserify', () => bundle())
-
-gulp.task('watchify', () => {
-  const watchify = require('watchify')
-  bundler = watchify(bundler)
-  bundler.on('update', () => {
-    gutil.log('-> bundling...')
-    bundle()
-  })
-  return bundle
-})
+gulp.task('webpack', () =>
+  gulp.src('src/static/js/app.js')
+  .pipe(webpack(require('../webpack.config.js')))
+  .pipe(gulp.dest('public/static/js/')))
 
 gulp.task('sass', () =>
   gulp.src('src/static/scss/**/*.scss')

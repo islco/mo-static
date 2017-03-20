@@ -11,7 +11,6 @@ import header from 'gulp-header'
 
 const BANNER = fs.readFileSync('banner.txt', 'utf8').replace('@date', (new Date()))
 
-
 gulp.task('rev', () =>
   gulp.src(['public/**/*', '!**/*.html', '!**/*.txt', '!**/*.ico'])
     .pipe(rev())
