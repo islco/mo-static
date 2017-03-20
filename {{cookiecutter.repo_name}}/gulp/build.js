@@ -1,14 +1,9 @@
 import gulp from 'gulp'
 import del from 'del'
-import autoprefixer from 'autoprefixer'
-import suitcss from 'gulp-suitcss'
-import postcss from 'gulp-postcss'
-import precss from 'precss'
 import sourcemaps from 'gulp-sourcemaps'
+import suitcss from 'gulp-suitcss'
 import nunjucks from 'gulp-nunjucks'
-import envify from 'loose-envify/custom'
 import plumber from 'gulp-plumber'
-import config from '../config'
 import webpackStream from 'webpack-stream'
 import webpack from 'webpack'
 
@@ -31,7 +26,7 @@ gulp.task('css', () =>
 gulp.task('nunjucks', () =>
   gulp.src(['src/templates/**/*.html', '!**/_*'])
     .pipe(plumber())
-    .pipe(nunjucks.compile(config.get(), {
+    .pipe(nunjucks.compile({}, {
       throwOnUndefined: true,
     }))
     .pipe(plumber.stop())
