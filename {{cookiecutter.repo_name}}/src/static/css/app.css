@@ -1,2 +1,6 @@
 @import 'suitcss';
 
+/* custom media queries */
+@custom-media --sm-viewport max-width: 750px;
+@custom-media --md-viewport (min-width: 750px) and (max-width: 960px);
+@custom-media --lg-viewport (min-width: 960px);

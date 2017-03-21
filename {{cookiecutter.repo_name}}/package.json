@@ -35,15 +35,14 @@
     "gulp-uglify": "2.1.0",
     "postcss-import": "8.1.0",
     "run-sequence": "1.2.2",
-    "stylelint": "7.6.0",
-    "stylelint-config-standard": "11.0.0",
-    "stylelint-selector-bem-pattern": "1.0.0",
     "suitcss": "2.0.0",
     "webpack": "2.2.1",
     "webpack-stream": "3.2.0"
   },
   "devDependencies": {
-    "browser-sync": "2.18.8"
+    "browser-sync": "2.18.8",
+    "stylelint": "7.9.0",
+    "stylelint-config-suitcss": "10.0.0"
   },
   "engines": {
     "npm": "^3",

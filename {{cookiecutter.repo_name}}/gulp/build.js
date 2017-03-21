@@ -6,6 +6,7 @@ import nunjucks from 'gulp-nunjucks'
 import plumber from 'gulp-plumber'
 import webpackStream from 'webpack-stream'
 import webpack from 'webpack'
+import styleLintConfig from '../stylelint.config'
 
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
@@ -18,7 +19,9 @@ gulp.task('webpack', (callback) =>
 gulp.task('css', () =>
   gulp.src('src/static/css/**/app.css')
     .pipe(sourcemaps.init())
-    .pipe(suitcss())
+    .pipe(suitcss({
+      stylelint: styleLintConfig
+    }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('public/static/css/'))
 )
