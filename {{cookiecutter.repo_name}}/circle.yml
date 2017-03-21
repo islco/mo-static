@@ -1,0 +1,11 @@
+machine:
+  node:
+    version: 6
+  environment:
+    NODE_ENV: production
+dependencies:
+  override:
+    - npm install
+test:
+  override:
+    - npm run lint
