@@ -12,12 +12,12 @@ export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,
 
 gulp.task('clean', () => del('public/'))
 
-gulp.task('webpack', (callback) =>
+gulp.task('webpack', () =>
   webpackStream(require('../webpack.config.js'), webpack)
   .pipe(gulp.dest('public/static/js/')))
 
 gulp.task('css', () =>
-  gulp.src('src/static/css/**/app.css')
+  gulp.src('src/static/css/app.css')
     .pipe(sourcemaps.init())
     .pipe(suitcss({
       stylelint: styleLintConfig
