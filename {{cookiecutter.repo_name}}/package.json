@@ -30,6 +30,7 @@
     "gulp-suitcss": "^2.0.0",
     "gulp-tinify": "^1.0.2",
     "gulp-uglify": "^2.1.2",
+    "postcss-import": "8.0.2",
     "run-sequence": "^1.2.2",
     "suitcss": "^2.0.0",
     "webpack": "^2.3.3",
