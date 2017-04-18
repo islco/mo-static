@@ -49,6 +49,7 @@ gulp.task('critical', () =>
         height: 640,
       }],
     }))
+    .on('error', (err) => { console.log(err.message) })
     .pipe(gulp.dest('public/')))
 
 gulp.task('minify:html', () =>
