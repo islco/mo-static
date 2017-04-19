@@ -11,7 +11,7 @@
                 </header>
 
                 <p style="margin-bottom: 1rem; line-height: 1.5rem;">
-                    The Grid relies on two classes, you can think of the top-level <span class="Code">.Grid</span> class as the equivalent to Foundation's row class. It&rsquo;s the flexbox container that will hold all the columns. If we just adds a <span class="Code">max-width</span> it&rsquo;ll behave as your standard grid. The <span class="Code">.Grid-cell</span> class on the other hand is Foundation&rsquo;s equivalent of the column class. By default a <span class="Code">Grid-cell</span> will take on 100% of it&rsquo;s parent&rsquo;s width. With extra classes you can specify custom and responsive widths. For more examples and information you can find the docs for the Grid component <a href="https://github.com/suitcss/components-grid" target="_blank">here.</a>
+                    The Grid relies on two classes, you can think of the top-level <code class="Code">.Grid</code> class as the equivalent to Foundation's row class. It&rsquo;s the flexbox container that will hold all the columns. If we just adds a <code class="Code">max-width</code> it&rsquo;ll behave as your standard grid. The <code class="Code">.Grid-cell</code> class on the other hand is Foundation&rsquo;s equivalent of the column class. By default a <code class="Code">Grid-cell</code> will take on 100% of it&rsquo;s parent&rsquo;s width. With extra classes you can specify custom and responsive widths. For more examples and information you can find the docs for the Grid component <a href="https://github.com/suitcss/components-grid" target="_blank">here.</a>
                 </p>
 
                 <header>
@@ -19,13 +19,13 @@
                 </header>
 
                 <p style="margin-bottom: 0.5rem; line-height: 1.5rem;">
-                    To modify the grid&rsquo;s maximum width and gutter size. Take a look at the <span class="Code">--Grid-gutter-size</span> and <span class="Code">--Grid-max-width</span> variables on the <span class="Code">:root</span> object in <span class="Code">app.css</span>.
+                    To modify the grid&rsquo;s maximum width and gutter size. Take a look at the <code class="Code">--Grid-gutter-size</code> and <code class="Code">--Grid-max-width</code> variables on the <code class="Code">:root</code> object in <code class="Code">app.css</code>.
                 </p>
 
                 <div style="margin-bottom: 2rem;">
                     <div>
                         <input type="checkbox" id="gutters" class="js-control" checked>
-                        <label for="gutters"> Grids have gutters? (toggle <span class="Code">.Grid--withGutter</span>)</label>
+                        <label for="gutters"> Grids have gutters? (toggle <code class="Code">.Grid--withGutter</code>)</label>
                     </div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                 </header>
 
                 <p style="margin-bottom: 1rem; line-height: 1.5rem;">
-                    Nested grids are available as well, this grid also got a <span class="Code">Grid--equalHeights</span> modifier that makes all columns equal in height. For more available classes take a look at the list on the <a href="https://github.com/suitcss/components-grid" target="_blank">Suitcss repo</a>.
+                    Nested grids are available as well, this grid also got a <code class="Code">Grid--equalHeights</code> modifier that makes all columns equal in height. For more available classes take a look at the list on the <a href="https://github.com/suitcss/components-grid" target="_blank">Suitcss repo</a>.
                 </p>
             </div>
         </div>
@@ -107,7 +107,7 @@
         <div class="Grid Grid--demo Grid--withGutter Grid--equalHeight">
             <div class="Grid-cell u-lg-size8of12 ExampleCell">
                 <div class="Figurebox">
-                    <span style="margin-bottom: 0.5rem; display: block;">Level 1</span>
+                    <code style="margin-bottom: 0.5rem; display: block;">Level 1</code>
 
                     <div class="Grid Grid--demo Grid--withGutter" style="margin-bottom: 0 !important;">
                         <div class="Grid-cell u-md-size6of12 ExampleCell"><div class="Figurebox">Level 2</div></div>
@@ -143,3 +143,4 @@
     })
 </script>
 {% endblock %}
+
