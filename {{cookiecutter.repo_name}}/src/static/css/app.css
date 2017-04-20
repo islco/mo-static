@@ -11,8 +11,19 @@
 @custom-media --lg-viewport (min-width: 960px);
 
 :root {
-  --Grid-gutter-size: 10px; /* suitcss property overwrite */
-  --Grid-max-width: 1200px; /* custom property */
+    --Grid-gutter-size: 10px; /* suitcss property overwrite */
+    --Grid-max-width: 1200px; /* custom property */
+
+    --font-family: 'Helvetica Neue', Arial, sans-serif;
+    --font-size: 1rem;
+
+    --primary-color: #43d8f8;
+    --secondary-color: red;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size);
 }
 
 .Grid {
