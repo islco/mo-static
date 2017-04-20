@@ -74,15 +74,6 @@ __🔐 TIP:__ Don't leak secret keys, neither by commmitting them nor by passing
 using should be kept secret, you should not add it to `config.js`.
 
 
-__⏱ TIP:__ If the config var is an amount of time, specify the units in the var name:
-
-```
-nconf.defaults({
-  TIMEOUT_MS: 2000,
-  EXPIRATION_S: 3
-})
-```
-
 ## Standard
 [Standard](https://github.com/feross/standard) is used for static analysis of JavaScript files. Standard, compared to ESlint allows/needs no configuration, if you really need to suppress a warning you can take a look [here](https://github.com/feross/standard#how-do-i-hide-a-certain-warning).
 
