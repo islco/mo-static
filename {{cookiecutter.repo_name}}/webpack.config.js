@@ -1,4 +1,6 @@
 const path = require('path')
+const webpack = require('webpack')
+const projectConfig = require('./config')
 
 const config = {
   entry: './src/static/js/app',
@@ -19,7 +21,12 @@ const config = {
         }]
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      SECRET_MESSAGE: JSON.stringify(projectConfig.get('secretMessage'))
+    })
+  ]
 }
 
 module.exports = config

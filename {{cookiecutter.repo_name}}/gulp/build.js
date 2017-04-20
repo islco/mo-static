@@ -7,6 +7,7 @@ import plumber from 'gulp-plumber'
 import webpackStream from 'webpack-stream'
 import webpack from 'webpack'
 import styleLintConfig from '../stylelint.config'
+import projectConfig from '../config'
 
 export const EXTRAS_GLOB = 'src/**/*.{txt,json,xml,ico,jpeg,jpg,png,gif,svg,ttf,otf,eot,woff,woff2,mp3,mp4,ogv,ogg,webm}'
 
@@ -31,7 +32,7 @@ gulp.task('css', () =>
 gulp.task('nunjucks', () =>
   gulp.src(['src/templates/**/*.html', '!**/_*'])
     .pipe(plumber())
-    .pipe(nunjucks.compile({}, {
+    .pipe(nunjucks.compile(projectConfig.getProperties(), {
       throwOnUndefined: true,
     }))
     .pipe(plumber.stop())
