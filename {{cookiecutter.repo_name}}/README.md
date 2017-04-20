@@ -58,15 +58,21 @@ mo-static relies on [SUIT CSS](https://suitcss.github.io/) to package it's css b
 A list with all utilities can be found [here](https://github.com/suitcss/utils) and a list with all components can be found [here](https://github.com/suitcss/components)
 
 ## Configuration
-[nconf](https://github.com/indexzero/nconf) is used to handle configuration which lives in `config.js`.
+[convict](https://github.com/mozilla/node-convict) is used to handle configuration which lives in `config.js`.
 
-All configuration variables should be defined in the `nconf.defaults` and it should be indicated if they are required.
+The convict instance just holds a javascript object. In there you can define all variables you like. If they have an `env` key the default value will be overwritten if the value is present in the environment variables. If you want to be even more specific with values only being present in some environments you can uncomment these lines and create the appropriate files:
+```javascript
+// var env = config.get('env');
+// config.loadFile('./config/' + env + '.json');
+```
 
 The configuration is passed to [envyify](https://github.com/zertosh/loose-envify) for transforming with browserify. This
 means you can use `process.env.FOO` in your browserified JavaScript files and the appropriate environment variable
 will be substituted during the build process to be shipped in the browser.
 
-__🔐 TIP:__ Don't leak secret keys, neither by commmitting them nor by passing them to browserify. If the var you are
+`gulp-nunjucks` automatically passes all this data when it compiles your HTML. This means you can just output `{{ secretMessage }}` within your HTML and the compiler will replace it with whatever value you have in convict. As for the JS you need to explicitely indicate which values you want passed to your code via webpack to prevent passing any sensitive data. You can do so by modifying the `webpack.config.js` file, we use the `DefinePlugin` to make our environment variables available in our code.
+
+__🔐 TIP:__ Don't leak secret keys, neither by commmitting them nor by passing them to your JS. If the var you are
 using should be kept secret, you should not add it to `config.js`.
 
 
