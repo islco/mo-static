@@ -5,7 +5,7 @@ machine:
     NODE_ENV: production
 dependencies:
   override:
-    - npm install --dev
+    - yarn
 test:
   override:
     - npm run lint
