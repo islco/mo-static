@@ -1,3 +1,5 @@
+/* globals SECRET_MESSAGE */
+
 // example
 const dateDisplayEl = document.createElement('div')
 dateDisplayEl.style.textAlign = 'center'
