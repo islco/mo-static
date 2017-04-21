@@ -23,7 +23,8 @@ gulp.task('css', () =>
   gulp.src('src/static/css/app.css')
     .pipe(sourcemaps.init())
     .pipe(suitcss({
-      stylelint: styleLintConfig
+      stylelint: styleLintConfig,
+      use: [ 'postcss-nested' ]
     }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('public/static/css/'))
