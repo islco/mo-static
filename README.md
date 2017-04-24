@@ -9,12 +9,12 @@ Mo-static is a static project template with batteries included.
 ## Features
 
 * [editorconfig](http://editorconfig.org/)
-* [nconf](https://github.com/indexzero/nconf)
+* [convict](https://github.com/mozilla/node-convict)
 * [Gulp](http://gulpjs.com/)
-* [Browserify](http://browserify.org/) (w/[babelify](https://github.com/babel/babelify), [envify](https://github.com/zertosh/loose-envify), and [uglifyify](https://github.com/hughsk/uglifyify))
-* [ESLint](http://eslint.org/) (w/[Airbnb config](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb#eslint-config-airbnbbase))
-* [SASS](https://github.com/dlmanning/gulp-sass) (w/[Autoprefixer](https://autoprefixer.github.io/))
-* [Stylelint](https://github.com/stylelint/stylelint) (w/[stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard) and [stylelint-selector-bem-pattern](https://github.com/davidtheclark/stylelint-selector-bem-pattern))
+* [Webpack](https://webpack.js.org/) (w/[babelify](https://github.com/babel/babelify)
+* [Standard](https://github.com/feross/standard)
+* [SuitCSS](https://suitcss.github.io) (w/[Autoprefixer](https://autoprefixer.github.io/))
+* [Stylelint](https://github.com/stylelint/stylelint) (w/[stylelint-config-suitcss](https://github.com/suitcss/stylelint-config-suitcss)
 * [Nunjucks](https://mozilla.github.io/nunjucks/)
 * [Browsersync](http://www.browsersync.io/)
 * [UglifyJS](https://github.com/mishoo/UglifyJS2/)
