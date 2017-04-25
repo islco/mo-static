@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const projectConfig = require('./config')
 
 const config = {
+  devtool: 'source-map',
   entry: './src/static/js/app',
   output: {
     path: path.resolve(__dirname, 'public/static/js'),
@@ -25,6 +26,9 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       SECRET_MESSAGE: JSON.stringify(projectConfig.get('secretMessage'))
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true
     })
   ]
 }
