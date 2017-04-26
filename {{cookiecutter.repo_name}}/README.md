@@ -31,7 +31,8 @@ yarn
 
 To start a hot reload dev server and watch files for development:
 
-``` npm run dev
+```
+npm run dev
 ```
 
 or to build, cachebust, and minify all assets for production:
