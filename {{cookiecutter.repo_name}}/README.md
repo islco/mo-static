@@ -67,7 +67,7 @@ The convict instance just holds a javascript object. In there you can define all
 
 `gulp-nunjucks` automatically passes all this data when it compiles your HTML. This means you can just output `{{ secretMessage }}` within your HTML and the compiler will replace it with whatever value you have in convict.
 
-As for the JS you need to explicitely indicate which values you want passed to your code via webpack to prevent passing any sensitive data. You can do so by modifying the `webpack.config.js` file, we use the `DefinePlugin` to make our environment variables available in our code. This means you can use `process.env.SECRET_MESSAGE` in your Javascript files and the appropriate environment variable will be substituted during the build process to be shipped in the browser.
+As for the JS you need to explicitly indicate which values you want passed to your code via webpack to prevent passing any sensitive data. You can do so by modifying the `webpack.config.js` file, we use the `DefinePlugin` to make our environment variables available in our code. This means you can use `process.env.SECRET_MESSAGE` in your Javascript files and the appropriate environment variable will be substituted during the build process to be shipped in the browser.
 
 __🔐 TIP:__ Don't leak secret keys, neither by commmitting them nor by passing them to your JS. If the var you are
 using should be kept secret, you should not add it to `config.js`.
