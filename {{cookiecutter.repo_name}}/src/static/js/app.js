@@ -1,14 +1,9 @@
-{% if cookiecutter.use_foundation_sites == 'y' -%}
-import $ from 'jquery'
-import 'foundation'
-import 'foundation-mediaquery'
+/* globals SECRET_MESSAGE */
 
-
-// initialize foundation
-$(document).foundation()
-
-{%- endif %}
 // example
 const dateDisplayEl = document.createElement('div')
+dateDisplayEl.style.textAlign = 'center'
 dateDisplayEl.innerHTML = new Date()
 document.body.appendChild(dateDisplayEl)
+
+console.log(SECRET_MESSAGE)

@@ -7,23 +7,24 @@ import EXTRAS_GLOB from './gulp/build'
 
 
 gulp.task('build', (done) => {
-  runSequence('clean', ['browserify', 'nunjucks', 'sass', 'extras'], done)
+  runSequence('clean', ['webpack', 'nunjucks', 'css', 'extras'], done)
 })
 
 gulp.task('build:production', (done) => {
   runSequence('build', 'rev:replace', ['minify:html', 'minify:css', 'minify:js'],
-              'purifycss', 'critical', done)
+              'purifycss', 'critical', 'remove-help', done)
 })
 
-gulp.task('watch', ['build', 'watchify'], () => {
+gulp.task('watch', ['build'], () => {
   const browserSync = require('browser-sync')
   browserSync({
     server: 'public',
     files: 'public/**/*',
+    open: false
   })
 
-  // watchify task handles js files
-  gulp.watch('src/static/scss/**/*.scss', ['sass'])
+  gulp.watch('src/static/js/**/*.js', ['webpack'])
+  gulp.watch('src/static/css/**/*.css', ['css'])
   gulp.watch('src/templates/**/*.html', ['nunjucks'])
   gulp.watch(EXTRAS_GLOB, ['extras'])
 })

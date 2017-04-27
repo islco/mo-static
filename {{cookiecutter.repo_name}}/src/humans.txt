@@ -12,4 +12,4 @@
 # TECHNOLOGY COLOPHON
 
     ES2015, CSS3, HTML5
-       {% if cookiecutter.use_foundation_sites == 'y' -%}Foundation, {%- endif %}Gulp, Browserify, Babel, SASS, Nunjucks
+       Gulp, Webpack, Babel, SUITCSS, Nunjucks

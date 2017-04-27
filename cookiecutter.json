@@ -3,6 +3,5 @@
   "repo_name": "{{ cookiecutter.project_name|lower|replace(' ', '-') }}",
   "author_name": "ISL",
   "email": "dev@isl.co",
-  "description": "",
-  "use_foundation_sites": "y"
+  "description": ""
 }

@@ -1,0 +1,146 @@
+{% raw %}{% extends '_base.html' %}
+
+{% block content %}
+<main role="main">
+    <section>
+        <div class="Grid Grid--fit">
+            <div class="Grid-cell">
+                <header>
+                    <h1 style="margin: 2rem 0 1rem;">The Grid</h1>
+                    <h2 style="margin: 2rem 0 1rem;">Basics</h2>
+                </header>
+
+                <p style="margin-bottom: 1rem; line-height: 1.5rem;">
+                    The Grid relies on two classes, you can think of the top-level <code class="Code">.Grid</code> class as the equivalent to Foundation's row class. It&rsquo;s the flexbox container that will hold all the columns. If we just adds a <code class="Code">max-width</code> it&rsquo;ll behave as your standard grid. The <code class="Code">.Grid-cell</code> class on the other hand is Foundation&rsquo;s equivalent of the column class. By default a <code class="Code">Grid-cell</code> will take on 100% of it&rsquo;s parent&rsquo;s width. With extra classes you can specify custom and responsive widths. For more examples and information you can find the docs for the Grid component <a href="https://github.com/suitcss/components-grid" target="_blank">here.</a>
+                </p>
+
+                <header>
+                    <h2 style="margin-bottom: 1rem;">Modify the grid</h2>
+                </header>
+
+                <p style="margin-bottom: 0.5rem; line-height: 1.5rem;">
+                    To modify the grid&rsquo;s maximum width and gutter size. Take a look at the <code class="Code">--Grid-gutter-size</code> and <code class="Code">--Grid-max-width</code> variables on the <code class="Code">:root</code> object in <code class="Code">app.css</code>.
+                </p>
+
+                <div style="margin-bottom: 2rem;">
+                    <div>
+                        <input type="checkbox" id="gutters" class="js-control" checked>
+                        <label for="gutters"> Grids have gutters? (toggle <code class="Code">.Grid--withGutter</code>)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell ExampleCell"><div class="Figurebox">.Grid-cell</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size1of12 ExampleCell"><div class="Figurebox">.u-lg-size1of12</div></div>
+            <div class="Grid-cell u-lg-size11of12 ExampleCell"><div class="Figurebox">.u-lg-size11of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size2of12 ExampleCell"><div class="Figurebox">.u-lg-size2of12</div></div>
+            <div class="Grid-cell u-lg-size10of12 ExampleCell"><div class="Figurebox">.u-lg-size10of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size3of12 ExampleCell"><div class="Figurebox">.u-lg-size3of12</div></div>
+            <div class="Grid-cell u-lg-size9of12 ExampleCell"><div class="Figurebox">.u-lg-size9of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size4of12 ExampleCell"><div class="Figurebox">.u-lg-size4of12</div></div>
+            <div class="Grid-cell u-lg-size8of12 ExampleCell"><div class="Figurebox">.u-lg-size8of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size5of12 ExampleCell"><div class="Figurebox">.u-lg-size5of12</div></div>
+            <div class="Grid-cell u-lg-size7of12 ExampleCell"><div class="Figurebox">.u-lg-size7of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size6of12 ExampleCell"><div class="Figurebox">.u-lg-size6of12</div></div>
+            <div class="Grid-cell u-lg-size6of12 ExampleCell"><div class="Figurebox">.u-lg-size6of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size7of12 ExampleCell"><div class="Figurebox">.u-lg-size7of12</div></div>
+            <div class="Grid-cell u-lg-size5of12 ExampleCell"><div class="Figurebox">.u-lg-size5of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size8of12 ExampleCell"><div class="Figurebox">.u-lg-size8of12</div></div>
+            <div class="Grid-cell u-lg-size4of12 ExampleCell"><div class="Figurebox">.u-lg-size4of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size9of12 ExampleCell"><div class="Figurebox">.u-lg-size9of12</div></div>
+            <div class="Grid-cell u-lg-size3of12 ExampleCell"><div class="Figurebox">.u-lg-size3of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size10of12 ExampleCell"><div class="Figurebox">.u-lg-size10of12</div></div>
+            <div class="Grid-cell u-lg-size2of12 ExampleCell"><div class="Figurebox">.u-lg-size2of12</div></div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter">
+            <div class="Grid-cell u-lg-size11of12 ExampleCell"><div class="Figurebox">.u-lg-size11of12</div></div>
+            <div class="Grid-cell u-lg-size1of12 ExampleCell"><div class="Figurebox">.u-lg-size1of12</div></div>
+        </div>
+    </section>
+
+    <section>
+        <div class="Grid Grid--withGutter">
+            <div class="Grid-cell">
+                <header>
+                    <h1 style="margin: 2rem 0 1rem;">Nested Grids</h1>
+                </header>
+
+                <p style="margin-bottom: 1rem; line-height: 1.5rem;">
+                    Nested grids are available as well, this grid also got a <code class="Code">Grid--equalHeights</code> modifier that makes all columns equal in height. For more available classes take a look at the list on the <a href="https://github.com/suitcss/components-grid" target="_blank">Suitcss repo</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="Grid Grid--demo Grid--withGutter Grid--equalHeight">
+            <div class="Grid-cell u-lg-size8of12 ExampleCell">
+                <div class="Figurebox">
+                    <code style="margin-bottom: 0.5rem; display: block;">Level 1</code>
+
+                    <div class="Grid Grid--demo Grid--withGutter" style="margin-bottom: 0 !important;">
+                        <div class="Grid-cell u-md-size6of12 ExampleCell"><div class="Figurebox">Level 2</div></div>
+                        <div class="Grid-cell u-md-size6of12 ExampleCell"><div class="Figurebox">Level 2</div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="Grid-cell u-lg-size4of12 ExampleCell">
+                <div class="Figurebox">Level 1</div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+{{ super() }}
+<script>
+    var allGrids = [].slice.call(document.querySelectorAll('.Grid--withGutter'));
+    function handleUpdate(e) {
+        allGrids.forEach(function(grid) {
+            if (e.target.checked) {
+                grid.classList.add('Grid--withGutter');
+            } else {
+                grid.classList.remove('Grid--withGutter');
+            }
+        })
+    }
+
+    var controls = [].slice.call(document.querySelectorAll('.js-control'));
+    controls.forEach(function(input) {
+        input.addEventListener('change', handleUpdate);
+    })
+</script>
+{% endblock %}{% endraw %}
+

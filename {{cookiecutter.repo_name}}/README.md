@@ -5,14 +5,14 @@
 
 ## Requirements:
 
-- Node 6.3.x
+- Node 6.10.x
 - nvm
 
 ## Installation
 
 ```
 $ nvm install
-$ npm install
+$ yarn
 ```
 
 ## Quick Start
@@ -23,14 +23,13 @@ $ npm run dev
 ```
 
 ## Usage
-
-First, install your dependencies:
+First, install your dependencies, there is a `yarn.lock` file, make sure you have yarn installed globally:
 
 ```
-npm install
+yarn
 ```
 
-To start a Browsersync server and watch files for development:
+To start a hot reload dev server and watch files for development:
 
 ```
 npm run dev
@@ -48,82 +47,53 @@ You can also optimize PNG and JPEG images using [tinify](https://www.npmjs.com/p
 npm run tinify
 ```
 
+## SUIT CSS
+mo-static relies on [SUIT CSS](https://suitcss.github.io/) to package it's css but it does more than just that. Suit comes with a bunch of CSS packages such as a grid and buttons. It also ships with a whole bunch of utilities for text positioning, visibility and positioning. All of these components and utils are included by default since we import suit completely in `app.css`. Some useful docs of utilities and components include:
+- [Grid component](https://github.com/suitcss/components-grid/)
+- [Button component](https://github.com/suitcss/components-button/)
+- [Text utilities (alignment, truncation, line breaks) ](https://github.com/suitcss/utils-text)
+- [Display utilities (block, inline, hidden)](https://github.com/suitcss/utils-display)
+- [Position utilities (relative, absolute, full screen](https://github.com/suitcss/utils-position)
+
+A list with all utilities can be found [here](https://github.com/suitcss/utils) and a list with all components can be found [here](https://github.com/suitcss/components)
+
 ## Configuration
+[convict](https://github.com/mozilla/node-convict) is used to handle configuration which lives in `config.js`.
 
-[nconf](https://github.com/indexzero/nconf) is used to handle configuration which lives in `config.js`.
+The convict instance just holds a javascript object. In there you can define all variables you like. If they have an `env` key the default value will be overwritten if the value is present in the environment variables. If you want to be even more specific with values only being present in some environments you can uncomment these lines and create the appropriate files:
+```javascript
+// var env = config.get('env');
+// config.loadFile('./config/' + env + '.json');
+```
 
-All configuration variables should be defined in the `nconf.defaults` and it should be indicated if they are required.
+`gulp-nunjucks` automatically passes all this data when it compiles your HTML. This means you can just output `{% raw %}{{ secretMessage }}{% endraw %}` within your HTML and the compiler will replace it with whatever value you have in convict.
 
-The configuration is passed to [envyify](https://github.com/zertosh/loose-envify) for transforming with browserify. This
-means you can use `process.env.FOO` in your browserified JavaScript files and the appropriate environment variable
-will be substituted during the build process to be shipped in the browser.
+As for the JS you need to explicitly indicate which values you want passed to your code via webpack to prevent passing any sensitive data. You can do so by modifying the `webpack.config.js` file, we use the `DefinePlugin` to make our environment variables available in our code. This means you can use `process.env.SECRET_MESSAGE` in your Javascript files and the appropriate environment variable will be substituted during the build process to be shipped in the browser.
 
-__🔐 TIP:__ Don't leak secret keys, neither by commmitting them nor by passing them to browserify. If the var you are
+__⚠️ WARNING__: Due to how Heroku pipelines work, the environment variables are piped into your code during build time. This means that when you promote an app from staging to production within a pipeline that the environment variables from staging will also make it to prdouction, since Heroku doesn't build again on production.
+
+__🔐 TIP:__ Don't leak secret keys, neither by commmitting them nor by passing them to your JS. If the var you are
 using should be kept secret, you should not add it to `config.js`.
 
 
-__⏱ TIP:__ If the config var is an amount of time, specify the units in the var name:
-
-```
-nconf.defaults({
-  TIMEOUT_MS: 2000,
-  EXPIRATION_S: 3
-})
-```
-
-{% if cookiecutter.use_foundation_sites == 'y' -%}
-## Foundation
-
-[Foundation Sites](http://foundation.zurb.com/sites.html) 6.2.0 is included with a small set of components enabled by
-default. There is a list of everything you can add at [Foundation's Kitchen Sink](http://foundation.zurb.com/sites/docs/kitchen-sink.html).
-To add more, uncomment the appropriate includes from the `app.scss` file along
-with the appropriate settings section for the component in the `_.settings.scss`
-file. This is described in detail at [Foundation's Sass docs](http://foundation.zurb.com/sites/docs/sass.html#adjusting-css-output).
-
-[Browserify-shim](https://github.com/thlorenz/browserify-shim) is used to bundle individual Foundation JavaScript plugins. When adding
-new plugins, you will need to update the shim configuration in `package.json` with the [appropriate Foundation files](http://foundation.zurb.com/sites/docs/javascript.html#file-structure).
-
-Foundation's documentation can be found at [foundation.zurb.com](http://foundation.zurb.com/sites/docs/).
-To get started with what's included by default, read these docs:
-
-* [Global styles](http://foundation.zurb.com/sites/docs/global.html)
-* [Flex Grid](http://foundation.zurb.com/sites/docs/flex-grid.html) and [Media Queries](http://foundation.zurb.com/sites/docs/media-queries.html)
-* [Typography](http://foundation.zurb.com/sites/docs/typography-base.html) and [Helper Classes](http://foundation.zurb.com/sites/docs/typography-helpers.html)
-* [Forms](http://foundation.zurb.com/sites/docs/forms.html) and [Buttons](http://foundation.zurb.com/sites/docs/button.html)
-* [Button Group](http://foundation.zurb.com/sites/docs/button-group.html)
-* [Visibility Classes](http://foundation.zurb.com/sites/docs/visibility.html)
-* [Float Classes](http://foundation.zurb.com/sites/docs/float-classes.html)
-* [Flexbox Classes](http://foundation.zurb.com/sites/docs/flexbox.html)
-* [JavaScript](http://foundation.zurb.com/sites/docs/javascript.html)
-{%- endif %}
-
-## ESlint
-
-[ESlint](http://eslint.org/) is used for static analysis of JavaScript files. By default,
-the `.eslintrc` is configured to extend [Airbnb's base](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb#eslint-config-airbnbbase) configuration,
-with a few small modifications:
-
-* 2 spaces for indentation.
-* No semicolons.
-* Only single quotes.
-* Unix linebreaks.
-
-If you use global variables that are already defined in the DOM, add them to the `globals` object
-in the `.eslintrc` to [register them](http://eslint.org/docs/user-guide/configuring#specifying-globals) with the linter.
+## Standard
+[Standard](https://github.com/feross/standard) is used for static analysis of JavaScript files. Standard, compared to ESlint allows/needs no configuration, if you really need to suppress a warning you can take a look [here](https://github.com/feross/standard#how-do-i-hide-a-certain-warning).
 
 ## Stylelint
-
-[Stylelint](https://github.com/stylelint/stylelint) is used for static analysis of SASS files. By default,
-the `.stylelintrc` is configured to extend [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard)
-and uses [stylelint-selector-bem-pattern](https://github.com/davidtheclark/stylelint-selector-bem-pattern),
-with a few small modifications:
+[Stylelint](https://github.com/stylelint/stylelint) is used for static analysis of css files. There is a suitcss config installed for Stylelint. All configuration lives in `stylelint.config.js` , it exports a object that can be passed to the suitcss preprocessor in `build.js` and be used when running `npm run lint`
 
 * 4 spaces for indentation.
+* Properties in alphabetical order
 * Only single quotes.
-* No vendor prefixes (autoprefixer is preferred).
+* No vendor prefixes (autoprefixer is enabled).
 * Max of 2 adjacent empty lines.
 * Required empty line between nested selectors, except first nested.
-* No [browser hacks](https://github.com/stylelint/stylelint/tree/master/src/rules/no-browser-hacks).
 * No [unsupported browser features](http://stylelint.io/user-guide/rules/no-unsupported-browser-features/).
 
 Generated by [mo static](https://github.com/istrategylabs/mo-static).
+
+## Deploying to Heroku
+In order to deploy your new `mo-static` app to Heroku you'll need these buildpacks, in this order:
+- Nodejs: `heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs -a <my-app>`
+- Heroku Static Buildpack `heroku buildpacks:add https://github.com/heroku/heroku-buildpack-static.git -a <my-app>`
+
