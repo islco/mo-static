@@ -4,7 +4,7 @@ machine:
 dependencies:
   pre:
     - pip install -r requirements.txt
-    - cookiecutter --no-input
+    - cookiecutter --no-input ./
     - cd mo-static; yarn
 test:
   override:
