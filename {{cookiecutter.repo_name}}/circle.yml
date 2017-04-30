@@ -1,8 +1,6 @@
 machine:
   node:
     version: 6
-  environment:
-    NODE_ENV: production
 dependencies:
   pre:
     # upgrade chrome to latest
@@ -12,4 +10,7 @@ dependencies:
     - rm google-chrome.deb
   override:
     # install node modules necessary for tests
-    - npm install --dev
+    - yarn install --ignore-engines --pure-lockfile
+test:
+  pre:
+    - npm run build
