@@ -1,4 +1,4 @@
-# Mo Static
+# Mo Static [![CircleCI](https://circleci.com/gh/istrategylabs/mo-static/tree/master.svg?style=svg)](https://circleci.com/gh/istrategylabs/mo-static/tree/master)
 
 > You want a static template? Because mo-static is how you get a static
 template.
