@@ -13,8 +13,8 @@ dependencies:
   override:
     - pip install -r requirements.txt
     - cookiecutter --no-input ./
-    - cd mo-static; yarn --ignore-engines
+    - cd mo-static; yarn --ignore-engines --pure-lockfile
 test:
   override:
     - pytest
-    - cd mo-static; npm test
+    - cd mo-static; npm run build && npm test
