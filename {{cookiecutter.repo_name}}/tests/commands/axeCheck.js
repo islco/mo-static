@@ -2,31 +2,34 @@
 // https://github.com/gerardkcohen/nightwatch-a11y-testing/blob/0d3e320e604bd98930f3be7dccea42cf25517268/commands/aXeCheck.js
 
 const fs = require('fs')
-const path = require('path')
 const util = require('util')
 
 exports.command = function (context, config, callback) {
 
-  const axeCore = fs.readFileSync(path.resolve('./node_modules/axe-core/axe.min.js'), 'utf8')
+  const axeCore = fs.readFileSync(require.resolve('axe-core'), 'utf8')
   const FAILURE_MSG = '%s issue: %s\n Description: %s \n Target: (%s)\n Type: %s,\n Help: %s \n'
   const PASS_MSG = '%d aXe a11y tests passed'
 
-  this.execute(function(aXe) {
+  this.execute(function (axe) {
     var s
 
     if (!document.querySelector('#nightwatch-axe')) {
       s = document.createElement('script')
       s.id = 'nightwatch-axe'
-      s.text = aXe
+      s.text = axe
       document.head.appendChild(s)
     }
   }, [axeCore])
 
-  this.executeAsync(function(context, config, done) {
+  this.executeAsync(function (context, config, done) {
     axe.a11yCheck((context == 'document') ? document : context, config, function (result) {
       done(result)
     })
   }, [context, config], function (results) {
+    if (results.status < 0) {
+      throw new Error(results.value.message)
+    }
+
     const value = results.value
     const violations = value.violations
     const passes = value.passes

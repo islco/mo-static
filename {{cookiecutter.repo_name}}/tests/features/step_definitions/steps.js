@@ -3,16 +3,18 @@ const { client } = require('nightwatch-cucumber')
 const { defineSupportCode } = require('cucumber')
 
 defineSupportCode(({ Given, Then, When, And }) => {
-  Given(/^I open the website$/, () => {
+  Given(/^I open the homepage/, () => {
     return client
-      .url('http://localhost:3000')
+      .url(client.launch_url)
       .waitForElementVisible('body', 1000)
   })
 
-  Then(/^the site is accessible for all audiences$/, () => {
-    const FAILURE_MSG = '%s issue: %s\n Description: %s \n Target: (%s)\n Type: %s,\n Help: %s \n';
-    const PASS_MSG = '%d aXe a11y tests passed';
-
-    return client.axeCheck()
+  Then(/^the page is accessible for all audiences$/, () => {
+    return client.axeCheck('document', {
+      runOnly: {
+        type: 'tag',
+        values: ['wcag2a', 'wcag2aa']
+      }
+    })
   })
 })

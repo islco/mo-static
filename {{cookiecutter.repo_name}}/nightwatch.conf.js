@@ -16,6 +16,7 @@ module.exports = {
   custom_commands_path: './tests/commands',
   live_output: false,
   disable_colors: false,
+
   selenium: {
     start_process: true,
     server_path: seleniumServer.path,
@@ -23,9 +24,10 @@ module.exports = {
     host: '127.0.0.1',
     port: 4444
   },
+
   test_settings: {
     default: {
-      launch_url: 'http://localhost:8087',
+      launch_url: 'http://localhost:13141',
       selenium_port: 4444,
       selenium_host: '127.0.0.1',
       desiredCapabilities: {
@@ -34,6 +36,7 @@ module.exports = {
         acceptSslCerts: true
       }
     },
+
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',

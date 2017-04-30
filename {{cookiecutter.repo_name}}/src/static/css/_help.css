@@ -19,6 +19,6 @@
     }
 
     @media(--sm-only-viewport) {
-        color: #ff0000;
+        color: #f00;
     }
 }

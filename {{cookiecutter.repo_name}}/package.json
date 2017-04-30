@@ -7,7 +7,7 @@
     "lint": "stylelint './src/static/css/**/*.css' && standard './src/static/js/**/*.js'",
     "dev": "gulp watch",
     "postinstall": "if [ \"$NODE_ENV\" = \"production\" ]; then npm run build; fi",
-    "test": "nightwatch",
+    "test": "npm run lint && node run-tests.js",
     "tinify": "gulp tinify"
   },
   "author": "{{ cookiecutter.author_name }}",
@@ -44,9 +44,11 @@
     "browser-sync": "^2.18.8",
     "chromedriver": "^2.29.0",
     "cucumber": "2.0.0-rc.9",
+    "finalhandler": "^1.0.2",
     "nightwatch": "^0.9.14",
     "nightwatch-cucumber": "^7.1.2",
     "selenium-server": "^3.3.1",
+    "serve-static": "^1.12.2",
     "standard": "^10.0.1",
     "stylelint": "^7.10.1",
     "stylelint-config-suitcss": "^11.0.0"
