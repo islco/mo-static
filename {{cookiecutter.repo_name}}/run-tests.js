@@ -22,7 +22,6 @@ nightwatch.runner({
   env: 'default',
   filter: '',
   tag: ''
-}, () => {
-  console.log('done')
-  process.exit()
+}, (pass) => {
+  process.exit(pass ? 0 : 1)
 })
