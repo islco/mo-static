@@ -1,4 +1,6 @@
 machine:
+  node:
+    version: 6.10
   python:
     version: 3.6.1
 dependencies:
