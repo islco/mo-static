@@ -1,5 +1,3 @@
-from contextlib import contextmanager
-
 import pytest
 
 
@@ -15,11 +13,6 @@ def context():
 
 
 # utility methods
-
-
-@contextmanager
-def content_of(project, path):
-    f = project.join(path)
 
 
 def generate(cookies, context):
