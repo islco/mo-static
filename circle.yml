@@ -1,6 +1,8 @@
 machine:
   node:
-    version: 6
+    version: 6.10
+  python:
+    version: 3.6.1
 dependencies:
   pre:
     # upgrade chrome to latest
@@ -9,8 +11,10 @@ dependencies:
     - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
     - rm google-chrome.deb
   override:
-    # install node modules necessary for tests
-    - yarn install --ignore-engines --pure-lockfile
+    - pip install -r requirements.txt
+    - cookiecutter --no-input ./
+    - cd mo-static; yarn --ignore-engines --pure-lockfile
 test:
-  pre:
-    - npm run build
+  override:
+    - pytest
+    - cd mo-static; npm run build && npm test

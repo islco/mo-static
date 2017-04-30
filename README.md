@@ -11,7 +11,7 @@ Mo-static is a static project template with batteries included.
 * [editorconfig](http://editorconfig.org/)
 * [convict](https://github.com/mozilla/node-convict)
 * [Gulp](http://gulpjs.com/)
-* [Webpack](https://webpack.js.org/) (w/[babelify](https://github.com/babel/babelify)
+* [Webpack](https://webpack.js.org/) (w/[babelify](https://github.com/babel/babelify))
 * [Standard](https://github.com/feross/standard)
 * [SuitCSS](https://suitcss.github.io) (w/[Autoprefixer](https://autoprefixer.github.io/))
 * [Stylelint](https://github.com/stylelint/stylelint) (w/[stylelint-config-suitcss](https://github.com/suitcss/stylelint-config-suitcss)
@@ -96,3 +96,4 @@ should change this to meet your needs, see [robotstxt.org](http://www.robotstxt.
 By default, the `humans.txt` file only lists ISL as a contributor. You should add project contributors
 to this list. Also, you should add any special thanks, and update the technology colophone to be appropriate
 for the project, see [humanstxt.org](http://humanstxt.org/Standard.html).
+
