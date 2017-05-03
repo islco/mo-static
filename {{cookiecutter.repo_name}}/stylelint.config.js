@@ -4,7 +4,7 @@ module.exports = {
     "node_modules"
   ],
   "rules": {
-    "indentation": null,
+    "indentation": 4,
     "max-empty-lines": 2,
     "string-quotes": "single",
     "property-no-vendor-prefix": true,

@@ -12,7 +12,7 @@ gulp.task('build', (done) => {
 
 gulp.task('build:production', (done) => {
   runSequence('build', 'rev:replace', ['minify:html', 'minify:css', 'minify:js'],
-              'purifycss', 'critical', 'remove-help', done)
+              'purifycss', 'critical', done)
 })
 
 gulp.task('watch', ['build'], () => {
