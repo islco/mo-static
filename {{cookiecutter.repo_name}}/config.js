@@ -1,13 +1,13 @@
-var convict = require('convict');
+const convict = require('convict')
 
-var config = convict({
+const config = convict({
   env: {
     doc: 'The applicaton environment.',
     format: ['production', 'development', 'test'],
     default: 'development',
     env: 'NODE_ENV'
   },
-  secretMessage: {
+  SECRET_MESSAGE: {
     doc: 'Some test secret message.',
     format: String,
     default: 'WHAZZAAAAHHHHH'
@@ -19,6 +19,6 @@ var config = convict({
 // config.loadFile('./config/' + env + '.json');
 
 // Perform validation
-config.validate({allowed: 'strict'});
+config.validate({allowed: 'strict'})
 
-module.exports = config;
+module.exports = config

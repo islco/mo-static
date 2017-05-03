@@ -11,10 +11,10 @@ Mo-static is a static project template with batteries included.
 * [editorconfig](http://editorconfig.org/)
 * [convict](https://github.com/mozilla/node-convict)
 * [Gulp](http://gulpjs.com/)
-* [Webpack](https://webpack.js.org/) (w/[babelify](https://github.com/babel/babelify))
+* [Webpack](https://webpack.js.org/) (w/[Babel](https://babeljs.io/))
 * [Standard](https://github.com/feross/standard)
 * [SuitCSS](https://suitcss.github.io) (w/[Autoprefixer](https://autoprefixer.github.io/))
-* [Stylelint](https://github.com/stylelint/stylelint) (w/[stylelint-config-suitcss](https://github.com/suitcss/stylelint-config-suitcss)
+* [Stylelint](https://github.com/stylelint/stylelint) (w/[stylelint-config-suitcss](https://github.com/suitcss/stylelint-config-suitcss))
 * [Nunjucks](https://mozilla.github.io/nunjucks/)
 * [Browsersync](http://www.browsersync.io/)
 * [UglifyJS](https://github.com/mishoo/UglifyJS2/)
@@ -22,6 +22,8 @@ Mo-static is a static project template with batteries included.
 * [html-minifier](https://github.com/kangax/html-minifier)
 * [Critical](https://github.com/addyosmani/critical)
 * [Purify CSS](https://github.com/purifycss/purifycss)
+* [Nightwatch Cucumber](https://github.com/mucsi96/nightwatch-cucumber)
+* [aXe Core](https://github.com/dequelabs/axe-core)
 
 
 ## Usage
