@@ -68,6 +68,13 @@ mo-static uses [SUIT CSS](https://suitcss.github.io/) to package its css but it 
 
 A list with all utilities can be found [here](https://github.com/suitcss/utils) and a list with all components can be found [here](https://github.com/suitcss/components)
 
+By default, SUIT CSS will compile CSS custom properties. If you wish to preserve any custom properties you can uncomment these lines in the css gulp task of `build.js`.
+
+```javascript
+// 'postcss-custom-properties':{preserve: true},
+```
+
+
 ## Configuration
 
 [convict](https://github.com/mozilla/node-convict) is used to handle configuration which lives in `config.js`.
