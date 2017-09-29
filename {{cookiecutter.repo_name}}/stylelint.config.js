@@ -14,6 +14,7 @@ module.exports = {
     "rule-empty-line-before":  [ "always-multi-line", {
       except: ["first-nested"],
       ignore: ["after-comment"]
-    } ]
+    } ],
+    "order/properties-alphabetical-order": null
   }
 }
