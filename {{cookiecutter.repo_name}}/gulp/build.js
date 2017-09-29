@@ -21,7 +21,7 @@ gulp.task('css', () =>
   gulp.src('src/static/css/app.css')
     .pipe(sourcemaps.init())
     .pipe(suitcss({
-      // 'postcss-custom-properties':{preserve: true},
+      // 'postcss-custom-properties': {preserve: true},
       stylelint: stylelintConfig,
       use: ['postcss-nested']
     }))
