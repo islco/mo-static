@@ -53,7 +53,7 @@
     "stylelint-config-suitcss": "^11.0.0"
   },
   "engines": {
-    "node": "^6.10",
-    "npm": "^3.10"
+    "node": "^6.11.4",
+    "npm": "^3.10.10"
   }
 }
