@@ -1,8 +1,11 @@
 machine:
   node:
-    version: 6.11.4
+    version: 8.0.0
 dependencies:
   pre:
+    # log node version
+    - node --version
+    - npm --version
     # upgrade chrome to latest
     - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     - sudo dpkg -i google-chrome.deb
