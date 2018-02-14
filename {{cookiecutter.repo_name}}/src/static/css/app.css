@@ -30,3 +30,7 @@ body {
     margin: 0 auto;
     max-width: var(--Grid-max-width);
 }
+
+.no-js body {
+    display: none;
+}
